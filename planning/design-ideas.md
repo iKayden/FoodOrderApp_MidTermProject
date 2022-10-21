@@ -10,3 +10,4 @@
 5. social media icons (light up on hover) top right
 6. pastel color palettes
 7. footer with about us
+8. 
