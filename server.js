@@ -31,7 +31,7 @@ app.use(express.static('public'));
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 // RESTful standart
-const userApiRoutes = require('./routes/users-api');
+const userApiRoutes = require('./routes/customers-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 // cart_items route
 // products route (menu data) SELECT * FROM products
