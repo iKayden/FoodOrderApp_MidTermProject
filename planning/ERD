@@ -1,0 +1,31 @@
+Users
+ID serial primary key not null
+Name varchar(255) not null
+Phone Number varchar(255) not null
+
+Owners
+ID serial primary key not null
+Name varchar(255) not null
+Phone Number varchar(255) not null
+
+Products (Bubble Tea)
+ID serial primary key not null
+Name varchar(255) not null
+Price integer not null
+Photo URL varchar(255) not null
+Description text
+
+Orders
+ID serial primary key not null
+User ID integer references users(id) on delete cascade
+Total Cost integer not null
+Order Date date not null default NOW
+
+Order Items
+Quantity smallint
+Product ID integer references products(id) on delete cascade
+
+Payments -
+ID  serial primary key not null
+isCash boolean not null default true
+
