@@ -25,12 +25,19 @@ app.use(
   })
 );
 app.use(express.static('public'));
-
+// SPA will be served from html
+// All the routes will send data and JS will handle it and insert into html (add script to the file)
+  
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
+// RESTful standart
 const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
+// cart_items route
+// products route (menu data) SELECT * FROM products
+// break it up by resource
+// our server is an API (does calls and takes back data)
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -38,15 +45,21 @@ const usersRoutes = require('./routes/users');
 app.use('/api/users', userApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+// AJAX call routes (api endpoints that we are going to hit)
+// maybe 2-3 app.use
+// route /admin shows admin stuff (active orders, update orders, history of orders (add new items(stretch)))
 // Note: mount other resources here, using the same pattern above
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
+// app.get('/', (req, res) => {
+//   res.render('index');
+// });
+
+// index.html sctipts styles - pub __dir
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
