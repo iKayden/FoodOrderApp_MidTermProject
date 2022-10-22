@@ -42,13 +42,16 @@ $(document).ready(function () {
     });
   };
 
-  const loadproducts = function () {
-    $.get("/")
+  const loadProducts = function () {
+    $.ajax({
+      url: "/api/products",
+      method: "GET",
+    })
       .then((products) => renderProducts(products))
       .catch((error) => {
         console.log("error", error);
       });
   };
 
-  loadproducts();
+  loadProducts();
 });

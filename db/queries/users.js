@@ -9,7 +9,6 @@ const getAllCustomers = () => { //Used by Admin
 };
 
 
-
 const getAllInfo = () => {
   const cartQuery = `
   SELECT * FROM cart_items

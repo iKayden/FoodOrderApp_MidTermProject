@@ -50,11 +50,18 @@ const productsApiRoutes = require('./routes/products-api');
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 // app.use('/api/widgets', widgetApiRoutes);
 
-app.use('/api/customers', customersApiRoutes);
-app.use('/api/orders', ordersApiRoutes);
-app.use('/api/cart_items', cartItemsApiRoutes);
-app.use('/api/products', productsApiRoutes);
-app.use('/api/payments', paymentsApiRoutes);
+app.use('/customers', customersApiRoutes);
+app.use('/orders', ordersApiRoutes);
+app.use('/cart_items', cartItemsApiRoutes);
+app.use('/products', productsApiRoutes);
+app.use('/payments', paymentsApiRoutes);
+
+// app.use('/api/customers', customersApiRoutes);
+// app.use('/api/orders', ordersApiRoutes);
+// app.use('/api/cart_items', cartItemsApiRoutes);
+// app.use('/api/products', productsApiRoutes);
+// app.use('/api/payments', paymentsApiRoutes);
+
 // app.use('/api/order_time', orderTimeApiRoutes);
 
 // AJAX call routes (api endpoints that we are going to hit)
