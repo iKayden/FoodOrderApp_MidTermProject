@@ -6,5 +6,5 @@ CREATE TABLE orders (
   customer_id INTEGER REFERENCES customers(id),
   total_cost INTEGER NOT NULL,
   order_date DATE NOT NULL DEFAULT NOW
-  restaurant_id INTEGER REFERENCES restaurant(id)
+  order_time_id INTEGER REFERENCES order_time(id)
 );
