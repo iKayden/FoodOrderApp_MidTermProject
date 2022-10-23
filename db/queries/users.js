@@ -55,4 +55,4 @@ const getOrderDetails = () => {
 };
 
 
-module.exports = { getAllCustomers, getAllCartItems: getAllInfo, getOneCartItem, paymentDetails, getOrderDetails};
+module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails};
