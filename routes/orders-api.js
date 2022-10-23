@@ -4,8 +4,8 @@ const userQueries = require('../db/queries/users');
 
 router.get('/:id', (req, res) => { // ask mentor about :id
   userQueries.getOrderDetails() //Changed the function a bit
-    .then(users => {
-      res.json({ users });
+    .then(orderDetails => {
+      res.json({ orderDetails });
     })
     .catch(err => {
       res
@@ -13,3 +13,5 @@ router.get('/:id', (req, res) => { // ask mentor about :id
         .json({ error: err.message });
     });
 });
+
+module.exports = router;

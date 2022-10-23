@@ -4,8 +4,8 @@ const userQueries = require('../db/queries/users');
 
 router.get('/:id', (req, res) => {
   userQueries.getOneCartItem() // gives all the info about one item
-    .then(users => {
-      res.json({ users });
+    .then(cartItem => {
+      res.json({ cartItem });
     })
     .catch(err => {
       res
@@ -13,3 +13,5 @@ router.get('/:id', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+module.exports = router;

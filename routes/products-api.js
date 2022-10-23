@@ -5,8 +5,8 @@ const userQueries = require('../db/queries/users');
 
 router.get('/', (req, res) => { //gives all the info front end needs
   userQueries.getAllInfo() //HAS 4 tables in it shows * in Cart items, products, orders, order time
-    .then(users => {
-      res.json({ users });
+    .then(info => {
+      res.json({ info });
     })
     .catch(err => {
       res
@@ -14,3 +14,5 @@ router.get('/', (req, res) => { //gives all the info front end needs
         .json({ error: err.message });
     });
 });
+
+module.exports = router;

@@ -5,8 +5,8 @@ const userQueries = require('../db/queries/users');
 
 router.get('/', (req, res) => {
   userQueries.paymentDetails() //Changed the function a bit
-    .then(users => {
-      res.json({ users });
+    .then(paymentDetails => {
+      res.json({ paymentDetails });
     })
     .catch(err => {
       res
@@ -17,8 +17,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   userQueries.paymentDetails() //Changed the function a bit
-    .then(users => {
-      res.json({ users });
+    .then(paymentDetails => {
+      res.json({ paymentDetails });
     })
     .catch(err => {
       res
@@ -26,3 +26,5 @@ router.post('/', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+module.exports = router;
