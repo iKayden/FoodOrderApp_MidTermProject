@@ -9,7 +9,6 @@ const getAllCustomers = () => { //Used by Admin
 };
 
 
-
 const getAllInfo = () => {
   const cartQuery = `
   SELECT * FROM cart_items
@@ -56,4 +55,4 @@ const getOrderDetails = () => {
 };
 
 
-module.exports = { getAllCustomers, getAllCartItems: getAllInfo, getOneCartItem, paymentDetails, getOrderDetails};
+module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails};
