@@ -8,6 +8,14 @@ const getAllCustomers = () => { //Used by Admin
     });
 };
 
+const getAllProducts = () => {
+  const productsQuery = `SELECT * FROM products;`;
+  return db.query(productsQuery)
+    .then(data => {
+      return data.rows;
+    });
+};
+
 
 const getAllInfo = () => {
   const cartQuery = `
@@ -55,4 +63,4 @@ const getOrderDetails = () => {
 };
 
 
-module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails};
+module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts};
