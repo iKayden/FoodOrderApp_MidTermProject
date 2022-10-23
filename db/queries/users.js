@@ -16,6 +16,7 @@ const getAllInfo = () => {
   JOIN orders ON orders.id = cart_items.order_id
   JOIN order_time ON order_time.id = orders.order_time_id;
   `;
+
   return db.query(cartQuery)
     .then(data => {
       return data.rows;
@@ -30,6 +31,7 @@ const getOneCartItem = (itemId) => {
   JOIN orders ON orders.id = cart_items.order_id
   WHERE cart_items.product_id = $1;
   `;
+
   return db.query(oneCartItemQuery, [itemId])
     .then(data => {
       return data.rows[0];
