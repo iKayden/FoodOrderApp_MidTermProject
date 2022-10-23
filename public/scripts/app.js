@@ -1,6 +1,6 @@
 $(document).ready(function () {
   const order = {
-    user: { name: "John Smith", phone: "1236667777" },
+    customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
   };
   const $products = $(".product-container");
@@ -31,8 +31,20 @@ $(document).ready(function () {
       $id = $(this).attr("key");
       order.beverages = {
         ...order.beverages,
+        //if quantity is 0, quanity will be 1. If not, quantity will be increased by 1.
         [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
       };
+    });
+
+    $cartButton = $("#cartButton");
+    $cartButton.click(function () {
+      $.ajax({
+        url: "/orders",
+        method: "POST",
+        data: JSON.stringify(order),
+        dataType: "json",
+        contentType: "application/json",
+      });
     });
   };
 
