@@ -18,8 +18,11 @@ router.get('/:id', (req, res) => { // ask mentor about :id
 
 // POST request for orders
 router.post('/', (req, res) => {
-  userQueries.addOrder({...req.body})
+  const data = {...req.body};
+  console.log("LOG FROM POST ROUTE", data);
+  userQueries.addOrder({data})
     .then(data => {
+      //twilio sends sms to owner (hardcode)
       res.send(data);
     })
     .catch(e => {

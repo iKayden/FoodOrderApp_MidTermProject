@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 $(document).ready(function() {
   const order = {
-    customer: { name: "John Smith", phone: "1236667777" },
+    customer: { name: "John Smith", phone: "1236667777", total_cost: 69420 },
     beverages: {},
   };
 
