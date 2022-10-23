@@ -74,15 +74,15 @@ const getOrderDetails = () => {
     });
 };
 
-// const addOrder = function(order) {
-//   const totalCost = ()
-//   return db
-//     .query(
-//       `INSERT INTO orders (customer_id, total_cost, order_date, order_time_id) 
-//       VALUES ($1 , $2, $3, $5); INSERT INTO customers`, [order.customer.cookie_id, ]
-//     )
+const addOrder = function(order) {
 
-// }
+  return db
+    .query(
+      `INSERT INTO orders (customer_id, total_cost, order_date, order_time_id) 
+      VALUES ($1 , $2, $3, $4); INSERT INTO customers`, [order.customer_id, order.total_cost, order.]
+    )
+
+}
 
 
 module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct};
