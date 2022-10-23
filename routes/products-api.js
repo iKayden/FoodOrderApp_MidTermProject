@@ -15,8 +15,8 @@ router.get('/', (req, res) => { //gives all the info front end needs
     });
 });
 
-router.get('/:id', (req, res) => { //gives all the info front end needs
-  userQueries.getOneProduct(req.body.id)
+router.get('/:id', (req, res) => {
+  userQueries.getOneProduct(req.params.id)
     .then(info => {
       res.json({ info });
     })

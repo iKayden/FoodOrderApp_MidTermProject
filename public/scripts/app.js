@@ -3,6 +3,11 @@ $(document).ready(function() {
     customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
   };
+
+  const order2 = {
+    customer: { name: "John Smith", phone: "1236667777" },
+    beverages: {},
+  };
   const $products = $(".product-container");
 
   const createProductElement = function(product) {

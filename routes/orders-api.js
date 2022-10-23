@@ -3,7 +3,7 @@ const router  = express.Router();
 const userQueries = require('../db/queries/users');
 
 router.get('/:id', (req, res) => { // ask mentor about :id
-  userQueries.getOrderDetails() //Changed the function a bit
+  userQueries.getOrderDetails(req.params.id) //Changed the function a bit
     .then(orderDetails => {
       res.json({ orderDetails });
     })
