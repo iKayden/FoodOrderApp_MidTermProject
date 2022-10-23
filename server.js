@@ -31,8 +31,15 @@ app.use(express.static('public'));
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 // RESTful standart
-const userApiRoutes = require('./routes/customers-api');
-const widgetApiRoutes = require('./routes/widgets-api');
+// const widgetApiRoutes = require('./routes/widgets-api');
+
+const customersApiRoutes = require('./routes/customers-api');
+const paymentsApiRoutes = require('./routes/payments-api');
+const ordersApiRoutes = require('./routes/orders-api');
+const cartItemsApiRoutes = require('./routes/cart-items-api');
+const productsApiRoutes = require('./routes/products-api');
+// const orderTimeApiRoutes = require('./routes/order-time-api');
+
 // cart_items route
 // products route (menu data) SELECT * FROM products
 // break it up by resource
@@ -41,10 +48,15 @@ const widgetApiRoutes = require('./routes/widgets-api');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/users', userApiRoutes);
-app.use('/api/widgets', widgetApiRoutes);
+// app.use('/api/widgets', widgetApiRoutes);
 
-app.use()
+app.use('/api/customers', customersApiRoutes);
+app.use('/api/orders', ordersApiRoutes);
+app.use('/api/cart_items', cartItemsApiRoutes);
+app.use('/api/products', productsApiRoutes);
+app.use('/api/payments', paymentsApiRoutes);
+// app.use('/api/order_time', orderTimeApiRoutes);
+
 // AJAX call routes (api endpoints that we are going to hit)
 // maybe 2-3 app.use
 // route /admin shows admin stuff (active orders, update orders, history of orders (add new items(stretch)))
