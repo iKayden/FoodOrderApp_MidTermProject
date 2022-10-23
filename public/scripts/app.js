@@ -41,7 +41,6 @@ $(document).ready(function () {
       $.ajax({
         url: "/orders",
         method: "POST",
-        // data: order
         data: JSON.stringify(order),
         dataType: "json",
         contentType: "application/json",
