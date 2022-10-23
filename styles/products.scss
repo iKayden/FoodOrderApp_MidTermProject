@@ -1,0 +1,42 @@
+// `<article>
+//    <div class="price">$${product.price}</div>
+//      <img src=${product.photo_url} alt="photo_url">
+//       <div class="product">
+//      <div class="productName">${product.name}</div>
+//    <div class="description">${product.description}</div>
+//       </div>
+//           </article>`
+.product-container {
+  padding: 24px;
+}
+
+article {
+  margin-bottom: 24px;
+  border: 1px solid #D8A8A8;
+  border-radius: 0 0 8px 8px;
+ }
+
+article img{
+  width:30%;
+  height:80px;
+  margin-right: 16px;
+ }
+
+.product {
+  display: flex;
+  padding: 16px;
+ }
+
+.price{
+  text-align: center;
+  background-color:#e5baba;
+  height:24px;
+}
+
+.productName {
+  text-align:center;
+  size:24;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
