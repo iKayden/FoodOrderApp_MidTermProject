@@ -1,11 +1,14 @@
 $(document).ready(function () {
-  let order = { user: {} };
+  const order = {
+    user: { name: "John Smith", phone: "1236667777" },
+    beverages: {},
+  };
   const $products = $(".product-container");
 
   const createProductElement = function (product) {
     const $product = $(`
     <article>
-      <div class="price">Add 1 to cart ($${product.price})</div>
+      <div class="price" key=${product.id}>Add 1 to cart ($${product.price})</div>
       <div class="product">
         <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
@@ -20,7 +23,16 @@ $(document).ready(function () {
   const renderProducts = function (products) {
     products.forEach((product) => {
       const $product = createProductElement(product);
-      $products.prepend($product);
+      $products.append($product);
+    });
+
+    $addToCart = $(".price");
+    $addToCart.click(function () {
+      $id = $(this).attr("key");
+      order.beverages = {
+        ...order.beverages,
+        [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
+      };
     });
   };
 
@@ -37,13 +49,4 @@ $(document).ready(function () {
       });
   };
   loadProducts();
-
-  // $addToCart = $(".price");
-  // let quantity = 0;
-  // $addToCart.click(function () {
-  //   $id = $(this).attr("key");
-  //   quantity++;
-  //   order.beverages = { $id: { quantity: quantity } };
-  //   console.log(order.beverages);
-  // });
 });
