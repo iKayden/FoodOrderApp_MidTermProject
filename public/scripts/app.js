@@ -1,16 +1,19 @@
 $(document).ready(function () {
-  let order = { user: {} };
+  const order = {
+    customer: { name: "John Smith", phone: "1236667777" },
+    beverages: {},
+  };
   const $products = $(".product-container");
 
   const createProductElement = function (product) {
     const $product = $(`
     <article>
-      <div class="price">Add 1 to cart ($${product.info.total_cost})</div>
+      <div class="price" key=${product.id}>Add 1 to cart ($${product.price})</div>
       <div class="product">
-        <img src=${product.info.photo_url} alt="photo_url">
+        <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
-          <div class="productName">${product.info.name}</div>
-          <div class="description">${product.info.description}</div>
+          <div class="productName">${product.name}</div>
+          <div class="description">${product.description}</div>
         </div>
       </div>
     </article>`);
@@ -20,7 +23,28 @@ $(document).ready(function () {
   const renderProducts = function (products) {
     products.forEach((product) => {
       const $product = createProductElement(product);
-      $products.prepend($product);
+      $products.append($product);
+    });
+
+    $addToCart = $(".price");
+    $addToCart.click(function () {
+      $id = $(this).attr("key");
+      order.beverages = {
+        ...order.beverages,
+        //if quantity is 0, quanity will be 1. If not, quantity will be increased by 1.
+        [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
+      };
+    });
+
+    $cartButton = $("#cartButton");
+    $cartButton.click(function () {
+      $.ajax({
+        url: "/orders",
+        method: "POST",
+        data: JSON.stringify(order),
+        dataType: "json",
+        contentType: "application/json",
+      });
     });
   };
 
@@ -30,7 +54,6 @@ $(document).ready(function () {
       method: "GET",
     })
       .then((products) => {
-        console.log(products);
         renderProducts(products.info);
       })
       .catch((error) => {
@@ -38,13 +61,4 @@ $(document).ready(function () {
       });
   };
   loadProducts();
-
-  // $addToCart = $(".price");
-  // let quantity = 0;
-  // $addToCart.click(function () {
-  //   $id = $(this).attr("key");
-  //   quantity++;
-  //   order.beverages = { $id: { quantity: quantity } };
-  //   console.log(order.beverages);
-  // });
 });
