@@ -4,7 +4,7 @@ const userQueries = require('../db/queries/users');
 
 
 router.get('/', (req, res) => { //gives all the info front end needs
-  userQueries.getAllProducts() //HAS 4 tables in it shows * in Cart items, products, orders, order time
+  userQueries.getAllProducts()
     .then(info => {
       res.json({ info });
     })
@@ -14,5 +14,21 @@ router.get('/', (req, res) => { //gives all the info front end needs
         .json({ error: err.message });
     });
 });
+
+router.get('/:id', (req, res) => { //gives all the info front end needs
+  userQueries.getOneProduct(req.body.id)
+    .then(info => {
+      res.json({ info });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+});
+// router.post('/', (req, res) => {
+  
+// })
+
 
 module.exports = router;

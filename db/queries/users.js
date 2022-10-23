@@ -16,6 +16,17 @@ const getAllProducts = () => {
     });
 };
 
+const getOneProduct = (productId) => {
+  const oneProductQuery = `
+  SELECT * FROM products WHERE id = $1;
+  `;
+  return db.query(oneProductQuery, [productId])
+    .then(data => {
+      return data.rows[0];
+    });
+
+};
+
 
 const getAllInfo = () => {
   const cartQuery = `
@@ -63,4 +74,4 @@ const getOrderDetails = () => {
 };
 
 
-module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts};
+module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct};
