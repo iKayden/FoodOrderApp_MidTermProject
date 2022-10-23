@@ -6,6 +6,11 @@ $(document).ready(function() {
     order_time_id: 1,
     product_id: 1
   };
+
+  const order2 = {
+    customer: { name: "John Smith", phone: "1236667777" },
+    beverages: {},
+  };
   const $products = $(".product-container");
 
   const createProductElement = function(product) {
@@ -29,7 +34,7 @@ $(document).ready(function() {
       $products.append($product);
     });
 
-    $addToCart = $(".price");
+    const $addToCart = $(".price");
     $addToCart.click(function() {
       $id = $(this).attr("key");
       order.product_id = {
@@ -39,7 +44,7 @@ $(document).ready(function() {
       };
     });
 
-    $cartButton = $("#cartButton");
+    const $cartButton = $("#cartButton");
     $cartButton.click(function() {
       $.ajax({
         url: "/orders",
