@@ -5,12 +5,12 @@ $(document).ready(function () {
   const createProductElement = function (product) {
     const $product = $(`
     <article>
-      <div class="price">Add 1 to cart ($${product.info.total_cost})</div>
+      <div class="price">Add 1 to cart ($${product.price})</div>
       <div class="product">
-        <img src=${product.info.photo_url} alt="photo_url">
+        <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
-          <div class="productName">${product.info.name}</div>
-          <div class="description">${product.info.description}</div>
+          <div class="productName">${product.name}</div>
+          <div class="description">${product.description}</div>
         </div>
       </div>
     </article>`);
@@ -30,7 +30,6 @@ $(document).ready(function () {
       method: "GET",
     })
       .then((products) => {
-        console.log(products);
         renderProducts(products.info);
       })
       .catch((error) => {
