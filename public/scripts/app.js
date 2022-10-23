@@ -1,30 +1,5 @@
 // Client facing scripts here
-const drinks = [
-  {
-    id: 1,
-    name: "Passion fruit bubble tea",
-    price: 8.99,
-    photo_url: "/images/product1.png",
-    description:
-      "Brown sugar tapioca with mashed taro and fresh milk, topped with ube taro sauce.",
-  },
-  {
-    id: 2,
-    name: "Greenapple bubble tea",
-    price: 8.99,
-    photo_url: "/images/product2.png",
-    description:
-      "Brown sugar tapioca with mashed taro and fresh milk, topped with ube taro sauce.",
-  },
-  {
-    id: 3,
-    name: "Konjac bubble tea",
-    price: 3.99,
-    photo_url: "/images/product3.png",
-    description:
-      "Brown sugar tapioca with mashed taro and fresh milk, topped with ube taro sauce.",
-  },
-];
+let order = { user: {} };
 
 $(document).ready(function () {
   const $products = $(".product-container");
@@ -51,18 +26,28 @@ $(document).ready(function () {
     });
   };
 
-  renderProducts(drinks);
-
   const loadProducts = function () {
     $.ajax({
-      url: "/api/products",
+      url: "/products",
       method: "GET",
     })
-      .then((products) => renderProducts(products))
+      .then((products) => {
+        console.log(products);
+        renderProducts(products.info);
+      })
       .catch((error) => {
         console.log("error", error);
       });
   };
 
   loadProducts();
+
+  // $addToCart = $(".price");
+  // let quantity = 0;
+  // $addToCart.click(function () {
+  //   $id = $(this).attr("key");
+  //   quantity++;
+  //   order.beverages = { $id: { quantity: quantity } };
+  //   console.log(order.beverages);
+  // });
 });
