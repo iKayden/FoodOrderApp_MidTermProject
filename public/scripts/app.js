@@ -44,7 +44,7 @@ $(document).ready(function () {
 
   const loadProducts = function () {
     $.ajax({
-      url: "/api/products",
+      url: "/products",
       method: "GET",
     })
       .then((products) => renderProducts(products))

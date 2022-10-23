@@ -5,9 +5,13 @@ require('dotenv').config();
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
+// const client = require('twilio')('AC5ee2df2d254cdfa1b626e876ed78858b', '4780c9a3d410231e52087d5ed003f142');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
+
+// var accountSid = process.env.TWILIO_ACCOUNT_SID; // Your Account SID from www.twilio.com/console
+// var authToken = process.env.TWILIO_AUTH_TOKEN;   // Your Auth Token from www.twilio.com/console
 
 app.set('view engine', 'ejs');
 
@@ -79,6 +83,18 @@ app.use('/payments', paymentsApiRoutes);
 
 // index.html scripts styles - pub __dir
 
+// function sendText() {
+// client.messages
+//   .create({
+//      body: 'Hello team!',
+//      from: '+12059557608',
+//      to: '17783233992'
+//    })
+//   .then(message => console.log(message))
+//   .catch(error => console.log(error))
+//   };
+
+//   sendText();
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
