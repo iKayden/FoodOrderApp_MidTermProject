@@ -70,7 +70,7 @@ app.use('/api/payments', paymentsApiRoutes);
 //   res.render('index');
 // });
 
-// index.html sctipts styles - pub __dir
+// index.html scripts styles - pub __dir
 
 
 app.listen(PORT, () => {

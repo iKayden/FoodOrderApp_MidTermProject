@@ -1,0 +1,18 @@
+nav {
+  height: 56px;
+  width: 100%;
+  color: black;
+  padding: 0 1.5em;
+  display: flex;
+  align-items: center;
+}
+
+#webName{
+flex: auto;
+font-weight: bold;
+font-size: 20px;
+}
+
+#login,#register{
+  margin-right: 12px;
+}
