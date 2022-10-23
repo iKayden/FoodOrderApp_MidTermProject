@@ -19,9 +19,11 @@ module.exports = router;
 // POST request for orders
 router.post('/', (req, res) => {
   console.log("BODY", req.body);
-  console.log("user-->", req.body.customer);
-  console.log("phone --->", req.body.customer.phone);
-  console.log("name --->", req.body.customer.name);
+  console.log("customer id -->", req.body.customer_id);
+  console.log("total cost --->", req.body.total_cost);
+  console.log("date --->", req.body.order_date);
+  console.log("product id --->", req.body.product_id);
+  console.log("order time id --->", req.body.order_time_id);
 });
 
 // router.post('/properties', (req, res) => {
