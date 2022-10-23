@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/cart_items', (req, res) => {
-  userQueries.getAllCartItems() //Changed the function a bit
+  userQueries.getAllInfo() //Changed the function a bit
     .then(item => {
       res.json({ item });
     })
