@@ -1,10 +1,7 @@
 $(document).ready(function() {
   const order = {
-    customer_id: 1,
-    total_cost: 1200,
-    order_date: "2002-12-12",
-    order_time_id: 1,
-    product_id: 1
+    customer: { name: "John Smith", phone: "1236667777" },
+    beverages: {},
   };
   const $products = $(".product-container");
 
@@ -29,17 +26,17 @@ $(document).ready(function() {
       $products.append($product);
     });
 
-    $addToCart = $(".price");
+    const $addToCart = $(".price");
     $addToCart.click(function() {
       $id = $(this).attr("key");
-      order.product_id = {
-        ...order.product_id,
-        //if quantity is 0, quantity will be 1. If not, quantity will be increased by 1.
-        [$id]: order.product_id[$id] ? order.product_id[$id] + 1 : 1,
+      order.beverages = {
+        ...order.beverages,
+        //if quantity is 0, quanity will be 1. If not, quantity will be increased by 1.
+        [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
       };
     });
 
-    $cartButton = $("#cartButton");
+    const $cartButton = $("#cartButton");
     $cartButton.click(function() {
       $.ajax({
         url: "/orders",
