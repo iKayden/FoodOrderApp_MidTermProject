@@ -9,8 +9,15 @@ const getAllCustomers = () => { //Used by Admin
 };
 
 
-const getAllCartItems = () => {
-  const cartQuery = 'SELECT * FROM cart_items JOIN products ON products.id = cart_items.product_id JOIN orders ON orders.id = cart_items.order_id JOIN order_time ON order_time.id = orders.order_time_id;';
+
+const getAllInfo = () => {
+  const cartQuery = `
+  SELECT * FROM cart_items
+  JOIN products ON products.id = cart_items.product_id
+  JOIN orders ON orders.id = cart_items.order_id
+  JOIN order_time ON order_time.id = orders.order_time_id;
+  `;
+
   return db.query(cartQuery)
     .then(data => {
       return data.rows;
@@ -19,7 +26,13 @@ const getAllCartItems = () => {
 
 
 const getOneCartItem = (itemId) => {
-  const oneCartItemQuery = 'SELECT * FROM cart_items JOIN products ON products.id = cart_items.product_id JOIN orders ON orders.id = cart_items.order_id WHERE cart_items.product_id = $1;';
+  const oneCartItemQuery =
+  `SELECT * FROM cart_items
+  JOIN products ON products.id = cart_items.product_id
+  JOIN orders ON orders.id = cart_items.order_id
+  WHERE cart_items.product_id = $1;
+  `;
+
   return db.query(oneCartItemQuery, [itemId])
     .then(data => {
       return data.rows[0];
@@ -43,4 +56,4 @@ const getOrderDetails = () => {
 };
 
 
-module.exports = { getAllCustomers, getAllCartItems, getOneCartItem, paymentDetails, getOrderDetails};
+module.exports = { getAllCustomers, getAllCartItems: getAllInfo, getOneCartItem, paymentDetails, getOrderDetails};
