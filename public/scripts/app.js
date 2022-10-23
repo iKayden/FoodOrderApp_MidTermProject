@@ -20,31 +20,33 @@ const drinks = [
   },
 ];
 
-$(document).ready(function () {
+$(document).ready(function() {
   const $products = $(".product-container");
 
-  const createProductElement = function (product) {
-    let $product = $(`<article>
+  const createProductElement = function(product) {
+    const $product = $(
+      `<article>
               <div class="price">$${product.price}</div>
               <div class="photo">${product.photo_url}</div>
               <div class="product">
                 <div class="productName">${product.name}</div>
                 <div class="description">${product.description}</div>
               </div>
-          </article>`);
+          </article>`
+    );
     return $product;
   };
 
-  const renderProducts = function (products) {
+  const renderProducts = function(products) {
     products.forEach((product) => {
       const $product = createProductElement(product);
       $products.prepend($product);
     });
   };
 
-  const loadProducts = function () {
+  const loadProducts = function() {
     $.ajax({
-      url: "/api/products",
+      url: "/products",
       method: "GET",
     })
       .then((products) => renderProducts(products))
