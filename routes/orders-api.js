@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const userQueries = require('../db/queries/users');
+module.exports = router;
 
 router.get('/:id', (req, res) => { // ask mentor about :id
   userQueries.getOrderDetails(req.params.id) //Changed the function a bit
@@ -14,16 +15,17 @@ router.get('/:id', (req, res) => { // ask mentor about :id
     });
 });
 
-module.exports = router;
 
 // POST request for orders
 router.post('/', (req, res) => {
-  console.log("BODY", req.body);
-  console.log("customer id -->", req.body.customer_id);
-  console.log("total cost --->", req.body.total_cost);
-  console.log("date --->", req.body.order_date);
-  console.log("product id --->", req.body.product_id);
-  console.log("order time id --->", req.body.order_time_id);
+  userQueries.addOrder({...req.body})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    });
 });
 
 // router.post('/properties', (req, res) => {

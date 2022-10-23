@@ -1,13 +1,5 @@
 $(document).ready(function() {
   const order = {
-    customer_id: 1,
-    total_cost: 1200,
-    order_date: "2002-12-12",
-    order_time_id: 1,
-    product_id: 1
-  };
-
-  const order2 = {
     customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
   };
@@ -36,11 +28,11 @@ $(document).ready(function() {
 
     const $addToCart = $(".price");
     $addToCart.click(function() {
-      $id = $(this).attr("key");
-      order.product_id = {
-        ...order.product_id,
+      const $id = $(this).attr("key");
+      order.beverages = {
+        ...order.beverages,
         //if quantity is 0, quantity will be 1. If not, quantity will be increased by 1.
-        [$id]: order.product_id[$id] ? order.product_id[$id] + 1 : 1,
+        [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
       };
     });
 
