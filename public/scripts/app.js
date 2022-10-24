@@ -3,8 +3,12 @@ $(document).ready(function () {
     customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
   };
-  const $products = $(".product-container");
 
+  //productsResponse is used to store the data we get from database (products table)
+  let productsResponse = {};
+
+  const $products = $(".product-container");
+  const $items = $(".modal-body");
   const createProductElement = function (product) {
     const $product = $(`
     <article>
@@ -26,7 +30,8 @@ $(document).ready(function () {
       $products.append($product);
     });
 
-    $addToCart = $(".price");
+    //adding products to cart
+    const $addToCart = $(".price");
     $addToCart.click(function () {
       $id = $(this).attr("key");
       order.beverages = {
@@ -36,8 +41,32 @@ $(document).ready(function () {
       };
     });
 
-    $cartButton = $("#cartButton");
+    const createOrderItem = function (itemId, quantity) {
+      const $item = $(`
+      <article>
+        <div class="itemPrice" key=${itemId}>$${
+        (productsResponse[itemId].price * quantity) / 100
+      }</div>
+        <div class="itemInfo">
+            <div class="productName">${productsResponse[itemId].name}</div>
+            <div class="quantity">${quantity}</div>
+        </div>
+      </article>`);
+      return $item;
+    };
+
+    const renderOrderItems = function (items) {
+      for (item in items) {
+        //item is the id of item, items[item] is the quantity of item.
+        const $item = createOrderItem(item, items[item]);
+        $items.append($item);
+      }
+    };
+
+    const $cartButton = $("#cartButton");
     $cartButton.click(function () {
+      renderOrderItems(order.beverages);
+
       $.ajax({
         url: "/orders",
         method: "POST",
@@ -54,11 +83,17 @@ $(document).ready(function () {
       method: "GET",
     })
       .then((products) => {
+        //Adding product's info to productsResponse, so it could be used to generate cart items.
+        products.info.forEach((product) => {
+          productsResponse[product.id] = product;
+        });
+
         renderProducts(products.info);
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
+
   loadProducts();
 });
