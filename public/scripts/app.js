@@ -1,8 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 $(document).ready(function() {
   const order = {
     customer: { name: "John Smith", phone: "1236667777", total_cost: 69420 },
-    beverages: {},
+    cart_items: {order_id: 5, product_id: 3, quantity: 4 },
   };
 
   const $products = $(".product-container");

@@ -3,11 +3,6 @@ const router  = express.Router();
 const userQueries = require('../db/queries/users');
 const twilio = require('../public/scripts/users');
 
-const authToken = process.env.AUTH_TOKEN;
-const accountSid = process.env.ACCOUNT_SID;
-const client = require('twilio')(accountSid, authToken);
-
-
 module.exports = router;
 
 router.get('/:id', (req, res) => { // ask mentor about :id
@@ -22,17 +17,18 @@ router.get('/:id', (req, res) => { // ask mentor about :id
     });
 });
 
-
 // POST request for orders
 router.post('/', (req, res) => {
   const data = {...req.body};
   userQueries.addOrder({data})
     .then(data => {
-      console.log('data.customer.name', req.body.customer.name);
-      // console.log("KEYS", Object.keys(data.customer));
-      // console.log("VALUES", Object.values(data.customer));
-      twilio.sendText(`Hey, we have a new order!  ${req.body.customer.phone} ${req.body.customer.name} ${req.body.customer.total_cost}`);
-      //twilio sends sms to owner (hardcode)
+      // msg to the owner
+      twilio.sendText(`Hey, we have a new order! Order ID is => ${req.body.cart_items.order_id}, the Product ID is ${req.body.cart_items.product_id} we need ${req.body.cart_items.quantity} of it.`);
+      
+      // customer update
+      console.log("Sending msg to the customer");
+      const msgToCustomer = setTimeout(twilio.sendText(`This a text for the ${req.body.customer.name}. Your phone number is ${req.body.customer.phone}. The total cost of your order will be ${req.body.customer.total_cost}`), 10000);
+      msgToCustomer();
       res.send(data);
     })
     .catch(e => {
@@ -41,16 +37,4 @@ router.post('/', (req, res) => {
     });
 });
 
-// router.post('/properties', (req, res) => {
-//   const userId = req.session.userId;
-//   database.addProperty({...req.body, owner_id: userId})
-//     .then(property => {
-//       res.send(property);
-//     })
-//     .catch(e => {
-//       console.error(e);
-//       res.send(e)
-//     });
-// });
 
-// return router;
