@@ -74,10 +74,12 @@ const getOrderDetails = () => {
 };
 
 const addOrder = function(order) {
+  console.log("ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER",order.data.customer);
+  console.log("phone", order.data.customer.phone);
   return db
     .query(
       `INSERT INTO orders (phone, total_cost) 
-      VALUES ($1 ,$2);`, [order.phone, order.total_cost]
+      VALUES ($1 ,$2);`, [order.data.customer.phone, order.data.customer.total_cost]
     );
 };
 
