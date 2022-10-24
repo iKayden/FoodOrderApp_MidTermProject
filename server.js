@@ -44,27 +44,15 @@ const cartItemsApiRoutes = require('./routes/cart-items-api');
 const productsApiRoutes = require('./routes/products-api');
 // const orderTimeApiRoutes = require('./routes/order-time-api');
 
-// cart_items route
-// products route (menu data) SELECT * FROM products
-// break it up by resource
-// our server is an API (does calls and takes back data)
-
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-// app.use('/api/widgets', widgetApiRoutes);
 
-app.use('/customers', customersApiRoutes);
-app.use('/orders', ordersApiRoutes);
-app.use('/cart_items', cartItemsApiRoutes);
-app.use('/products', productsApiRoutes);
-app.use('/payments', paymentsApiRoutes);
-
-// app.use('/api/customers', customersApiRoutes);
-// app.use('/api/orders', ordersApiRoutes);
-// app.use('/api/cart_items', cartItemsApiRoutes);
-// app.use('/api/products', productsApiRoutes);
-// app.use('/api/payments', paymentsApiRoutes);
+app.use('/api/customers', customersApiRoutes);
+app.use('/api/orders', ordersApiRoutes);
+app.use('/api/cart_items', cartItemsApiRoutes);
+app.use('/api/products', productsApiRoutes);
+app.use('/api/payments', paymentsApiRoutes);
 
 // app.use('/api/order_time', orderTimeApiRoutes);
 
@@ -72,17 +60,6 @@ app.use('/payments', paymentsApiRoutes);
 // maybe 2-3 app.use
 // route /admin shows admin stuff (active orders, update orders, history of orders (add new items(stretch)))
 // Note: mount other resources here, using the same pattern above
-
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
-
-// app.get('/', (req, res) => {
-//   res.render('index');
-// });
-
-// index.html scripts styles - pub __dir
-
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
