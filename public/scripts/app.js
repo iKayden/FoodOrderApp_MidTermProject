@@ -2,6 +2,7 @@ $(document).ready(function () {
   const order = {
     customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
+    total_cost: 0,
   };
 
   //productsResponse is used to store the data we get from database (products table)
@@ -9,6 +10,7 @@ $(document).ready(function () {
 
   const $products = $(".product-container");
   const $items = $(".modal-body");
+
   const createProductElement = function (product) {
     const $product = $(`
     <article>
@@ -43,15 +45,28 @@ $(document).ready(function () {
       };
     });
 
+    const calculateTotalCost = function (order, productInfo) {
+      let result = 0;
+      for (item in order) {
+        console.log(item);
+        const cost = productInfo[item].price * order[item];
+        result += cost;
+      }
+      //tax rate is 5%
+      const tax = result * 0.05;
+      result += tax;
+      return result / 100;
+    };
+
     const createOrderItem = function (itemId, quantity) {
       const $item = $(`
       <article>
-        <div class="itemPrice" key=${itemId}>$${
+        <div class="item-price" key=${itemId}>$${
         (productsResponse[itemId].price * quantity) / 100
       }</div>
-        <div class="itemInfo">
-            <div class="productName">${productsResponse[itemId].name}</div>
-            <div class="quantity">${quantity}</div>
+        <div class="item-info">
+            <div class="product-name">${productsResponse[itemId].name}</div>
+            <div class="quantity">quantity:${quantity}</div>
         </div>
       </article>`);
       return $item;
@@ -79,6 +94,15 @@ $(document).ready(function () {
     const $cartButton = $("#cartButton");
     $cartButton.click(function () {
       renderOrderItems(order.beverages);
+
+      const totalCost = calculateTotalCost(order.beverages, productsResponse);
+      const $totalCost = $(`
+      <p class=total-cost>Total: $${totalCost}<p>
+      `);
+
+      //Save total cost to the order so that it can be sent to backend;
+      order.total_cost = totalCost * 100;
+      $items.append($totalCost);
     });
   };
 
