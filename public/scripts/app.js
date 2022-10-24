@@ -3,6 +3,7 @@ $(document).ready(function() {
     customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
   };
+
   const $products = $(".product-container");
 
   const createProductElement = function(product) {
@@ -32,6 +33,7 @@ $(document).ready(function() {
       order.beverages = {
         ...order.beverages,
         //if quantity is 0, quantity will be 1. If not, quantity will be increased by 1.
+
         [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
       };
     });
