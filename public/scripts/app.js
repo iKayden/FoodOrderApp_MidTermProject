@@ -1,14 +1,18 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-$(document).ready(function() {
+$(document).ready(function () {
   const order = {
     customer: { name: "John Smith", phone: "1236667777", total_cost: 69420 },
     cart_items: {order_id: 5, product_id: 3, quantity: 4 },
   };
 
-  const $products = $(".product-container");
+  //productsResponse is used to store the data we get from database (products table)
+  let productsResponse = {};
 
-  const createProductElement = function(product) {
+  const $products = $(".product-container");
+  const $items = $(".modal-body");
+
+  const createProductElement = function (product) {
     const $product = $(`
     <article>
       <div class="price" key=${product.id}>Add 1 to cart ($${product.price})</div>
@@ -23,14 +27,15 @@ $(document).ready(function() {
     return $product;
   };
 
-  const renderProducts = function(products) {
+  const renderProducts = function (products) {
     products.forEach((product) => {
       const $product = createProductElement(product);
       $products.append($product);
     });
 
+    //adding products to cart
     const $addToCart = $(".price");
-    $addToCart.click(function() {
+    $addToCart.click(function () {
       const $id = $(this).attr("key");
       order.beverages = {
         ...order.beverages,
@@ -50,19 +55,38 @@ $(document).ready(function() {
         contentType: "application/json",
       });
     });
+
+    $cartButton.click(function () {
+      renderOrderItems(order.beverages);
+
+      const totalCost = calculateTotalCost(order.beverages, productsResponse);
+      const $totalCost = $(`
+      <p class=total-cost>Total: $${totalCost}<p>
+      `);
+
+      //Save total cost to the order so that it can be sent to backend;
+      order.total_cost = totalCost * 100;
+      $items.append($totalCost);
+    });
   };
 
-  const loadProducts = function() {
+  const loadProducts = function () {
     $.ajax({
       url: "/products",
       method: "GET",
     })
       .then((products) => {
+        //Adding product's info to productsResponse, so it could be used to generate cart items.
+        products.info.forEach((product) => {
+          productsResponse[product.id] = product;
+        });
+
         renderProducts(products.info);
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
+
   loadProducts();
 });
