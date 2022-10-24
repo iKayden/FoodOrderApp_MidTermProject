@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
       console.log('data.customer.name', req.body.customer.name);
       // console.log("KEYS", Object.keys(data.customer));
       // console.log("VALUES", Object.values(data.customer));
-      twilio.sendText(`Double bubble trouble ${req.body.customer.phone} ${req.body.customer.name} ${req.body.customer.total_cost}`);
+      twilio.sendText(`Hey, we have a new order!  ${req.body.customer.phone} ${req.body.customer.name} ${req.body.customer.total_cost}`);
       //twilio sends sms to owner (hardcode)
       res.send(data);
     })
