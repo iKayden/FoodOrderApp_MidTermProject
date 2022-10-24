@@ -57,7 +57,8 @@ $(document).ready(function () {
       //tax rate is 5%
       const tax = result * 0.05;
       result += tax;
-      return result / 100;
+      result = Math.round(result) / 100;
+      return result;
     };
 
     const createOrderItem = function (itemId, quantity) {
