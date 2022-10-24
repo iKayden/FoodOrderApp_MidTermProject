@@ -63,10 +63,8 @@ $(document).ready(function () {
       }
     };
 
-    const $cartButton = $("#cartButton");
-    $cartButton.click(function () {
-      renderOrderItems(order.beverages);
-
+    const $placeOrder = $(".placeOrder");
+    $placeOrder.click(function () {
       $.ajax({
         url: "/orders",
         method: "POST",
@@ -74,6 +72,11 @@ $(document).ready(function () {
         dataType: "json",
         contentType: "application/json",
       });
+    });
+
+    const $cartButton = $("#cartButton");
+    $cartButton.click(function () {
+      renderOrderItems(order.beverages);
     });
   };
 
