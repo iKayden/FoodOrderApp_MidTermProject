@@ -1,17 +1,18 @@
-// Client facing scripts here
-$(() => {
-  $('#fetch-users').on('click', () => {
-    $.ajax({
-      method: 'GET',
-      url: '/api/users'
-    })
-      .done((response) => {
-        const $usersList = $('#users');
-        $usersList.empty();
+const authToken = process.env.AUTH_TOKEN;
+const accountSid = process.env.ACCOUNT_SID;
+const client = require('twilio')(accountSid, authToken);
 
-        for(const user of response.users) {
-          $(`<li class="user">`).text(user.name).appendTo($usersList);
-        }
-      });
-  });
-});
+
+const sendText = function(message) {
+  client.messages
+    .create({
+       body: message,
+       from: '+12059557608',
+       to: '17783233992'
+     })
+    .then(message => console.log(message))
+    .catch(error => console.log(error))
+    };
+
+
+module.exports = { sendText };

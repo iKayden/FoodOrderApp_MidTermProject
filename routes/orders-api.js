@@ -1,6 +1,13 @@
 const express = require('express');
 const router  = express.Router();
 const userQueries = require('../db/queries/users');
+const twilio = require('../public/scripts/users');
+
+const authToken = process.env.AUTH_TOKEN;
+const accountSid = process.env.ACCOUNT_SID;
+const client = require('twilio')(accountSid, authToken);
+
+
 module.exports = router;
 
 router.get('/:id', (req, res) => { // ask mentor about :id
@@ -19,9 +26,12 @@ router.get('/:id', (req, res) => { // ask mentor about :id
 // POST request for orders
 router.post('/', (req, res) => {
   const data = {...req.body};
-  console.log("LOG FROM POST ROUTE", data);
   userQueries.addOrder({data})
     .then(data => {
+      console.log('data.customer.name', req.body.customer.name);
+      // console.log("KEYS", Object.keys(data.customer));
+      // console.log("VALUES", Object.values(data.customer));
+      twilio.sendText(`Double bubble trouble ${req.body.customer.phone} ${req.body.customer.name} ${req.body.customer.total_cost}`);
       //twilio sends sms to owner (hardcode)
       res.send(data);
     })
