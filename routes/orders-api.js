@@ -23,17 +23,25 @@ router.post('/', (req, res) => {
   console.log("BODY", body);
   userQueries.addOrder(body)
     .then(data => {
+      // function to calculate total cost
+
+      const productInfo = userQueries.getOneProduct(body.cart_items.product_id)
       // msg to the owner
-      console.log("DATA from insert file", data);
-      twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
-      return data;
+      // twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
+      return { productInfo, data };
     })
-    .then((data) => {
-      twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
-      return data;
-    })
-    .then(() => {
-      res.json({data});
+    // .then((data) => {
+
+      //   twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
+      //   return data;
+      // })
+      .then((data) => {
+        console.log('big data----->', data)
+        console.log('productInfo.price---->', data.price);
+        console.log('productInfo.quantity---->', data.quantity);
+
+    // res.json( {data} );
+    res.json( { message: 'Success!' } );
     })
     .catch(e => {
       console.log(e);
@@ -43,4 +51,4 @@ router.post('/', (req, res) => {
 
 // twillio customer gets 3 msg "Recieved your order", "It will take x mins", "Order is ready"
 // need extra post routes for messages
-// one more page with 
+// one more page with

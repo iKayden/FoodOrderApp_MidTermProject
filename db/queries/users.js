@@ -22,6 +22,7 @@ const getOneProduct = (productId) => {
   `;
   return db.query(oneProductQuery, [productId])
     .then(data => {
+      console.log('data.rows--->', data.rows[0])
       return data.rows[0];
     });
 
@@ -78,13 +79,13 @@ const addOrder = function(order) {
   console.log("phone", order.customer.phone);
   return db
     .query(
-      `INSERT INTO orders (phone, total_cost) 
+      `INSERT INTO orders (phone, total_cost)
       VALUES ($1 ,$2) RETURNING *`, [order.customer.phone, order.total_cost]
     )
     .then(data=> {
       return data.rows[0];
     })
-    
+
 };
 
 
