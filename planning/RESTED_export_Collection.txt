@@ -1,43 +1,13 @@
 {
-  "log": {
-    "version": "1.2",
-    "creator": "RESTED REST Client",
-    "Comment": "An exported collection from RESTED",
-    "entries": [
-      {
-        "request": {
-          "method": "GET",
-          "url": "http://localhost:8080/api/products",
-          "headers": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "postData": {
-            "mimeType": "",
-            "params": [],
-            "text": "{\n\t\"customer\": {\n\t\t\"name\": \"John Smith\",\n\t\t\"phone\": \"1236667777\"\n\n\t},\n\t\"total_cost\": 69420,\n\t\"cart_items\": {\n\t\t\"product_id\": 3,\n\t\t\"quantity\": 4\n\t},\n\t\"beverages\": {}\n}"
-          }
-        }
-      },
-      {
-        "request": {
-          "method": "POST",
-          "url": "http://localhost:8080/api/orders",
-          "headers": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "postData": {
-            "mimeType": "",
-            "params": [],
-            "text": "{\n\t\"customer\": {\n\t\t\"name\": \"John Smith\",\n\t\t\"phone\": \"1236667777\"\n\n\t},\n\t\"total_cost\": 69420,\n\t\"cart_items\": {\n\t\t\"product_id\": 3,\n\t\t\"quantity\": 4\n\t},\n\t\"beverages\": {}\n}"
-          }
-        }
-      }
-    ]
-  }
+	"customer": {
+		"name": "John Smith",
+		"phone": "1236667777"
+
+	},
+	"total_cost": 69420,
+	"cart_items": {
+		"product_id": 3,
+		"quantity": 4
+	},
+	"beverages": {}
 }

@@ -21,18 +21,19 @@ router.get('/:id', (req, res) => { // ask mentor about :id
 router.post('/', (req, res) => {
   const body = req.body;
   console.log("BODY", body);
-  // return res.json({});
   userQueries.addOrder(body)
     .then(data => {
       // msg to the owner
       console.log("DATA from insert file", data);
-      return twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
+      twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
+      return data;
+    })
+    .then((data) => {
+      twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
+      return data;
     })
     .then(() => {
-      return twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
-    })
-    .then(() => {
-      res.json(data);
+      res.json({data});
     })
     .catch(e => {
       console.log(e);
