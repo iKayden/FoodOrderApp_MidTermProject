@@ -23,12 +23,12 @@ router.post('/', (req, res) => {
   userQueries.addOrder({data})
     .then(data => {
       // msg to the owner
-      twilio.sendText(`Hey, we have a new order! Order ID is => ${req.body.cart_items.order_id}, the Product ID is ${req.body.cart_items.product_id} we need ${req.body.cart_items.quantity} of it.`);
+      // twilio.sendText(`Hey, we have a new order! Order ID is => ${req.body.cart_items.order_id}, the Product ID is ${req.body.cart_items.product_id} we need ${req.body.cart_items.quantity} of it.`);
       
-      // customer update
-      console.log("Sending msg to the customer");
-      const msgToCustomer = setTimeout(twilio.sendText(`This a text for the ${req.body.customer.name}. Your phone number is ${req.body.customer.phone}. The total cost of your order will be ${req.body.customer.total_cost}`), 10000);
-      msgToCustomer();
+      // // customer update
+      // console.log("Sending msg to the customer");
+      // const msgToCustomer = setTimeout(twilio.sendText(`This a text for the ${req.body.customer.name}. Your phone number is ${req.body.customer.phone}. The total cost of your order will be ${req.body.customer.total_cost}`), 10000);
+      // msgToCustomer();
       res.send(data);
     })
     .catch(e => {
