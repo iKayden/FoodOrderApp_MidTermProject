@@ -1,13 +1,10 @@
+/* eslint-disable no-undef */
 $(document).ready(function() {
   const order = {
     customer: { name: "John Smith", phone: "1236667777" },
     beverages: {},
   };
 
-  const order2 = {
-    customer: { name: "John Smith", phone: "1236667777" },
-    beverages: {},
-  };
   const $products = $(".product-container");
 
   const createProductElement = function(product) {
@@ -33,10 +30,11 @@ $(document).ready(function() {
 
     const $addToCart = $(".price");
     $addToCart.click(function() {
-      $id = $(this).attr("key");
+      const $id = $(this).attr("key");
       order.beverages = {
         ...order.beverages,
-        //if quantity is 0, quanity will be 1. If not, quantity will be increased by 1.
+        //if quantity is 0, quantity will be 1. If not, quantity will be increased by 1.
+
         [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
       };
     });

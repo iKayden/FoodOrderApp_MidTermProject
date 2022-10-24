@@ -1,4 +1,3 @@
-const { Pool } = require('pg');
 const db = require('../connection');
 
 const getAllCustomers = () => { //Used by Admin
@@ -74,15 +73,13 @@ const getOrderDetails = () => {
     });
 };
 
-// const addOrder = function(order) {
-//   const totalCost = ()
-//   return db
-//     .query(
-//       `INSERT INTO orders (customer_id, total_cost, order_date, order_time_id) 
-//       VALUES ($1 , $2, $3, $5); INSERT INTO customers`, [order.customer.cookie_id, ]
-//     )
-
-// }
+const addOrder = function(order) {
+  return db
+    .query(
+      `INSERT INTO orders (phone, total_cost) 
+      VALUES ($1 ,$2);`, [order.phone, order.total_cost]
+    );
+};
 
 
-module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct};
+module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct, addOrder};
