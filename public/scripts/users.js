@@ -8,7 +8,7 @@ const sendText = function(message) {
     .create({
       body: message,
       from: '+12059557608',
-      to: process.env.TWILIO_PHONE_NUMBER
+      to: process.env.PHONE_NUMBER
     })
     .then(message => console.log(message))
     .catch(error => console.log(error));
