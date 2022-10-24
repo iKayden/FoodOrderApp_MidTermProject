@@ -1,3 +1,4 @@
+const { Pool } = require('pg');
 const db = require('../connection');
 
 const getAllCustomers = () => { //Used by Admin
@@ -72,6 +73,16 @@ const getOrderDetails = () => {
       return data.rows[0];
     });
 };
+
+// const addOrder = function(order) {
+//   const totalCost = ()
+//   return db
+//     .query(
+//       `INSERT INTO orders (customer_id, total_cost, order_date, order_time_id) 
+//       VALUES ($1 , $2, $3, $5); INSERT INTO customers`, [order.customer.cookie_id, ]
+//     )
+
+// }
 
 
 module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct};
