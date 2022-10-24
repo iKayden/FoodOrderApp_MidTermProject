@@ -1,5 +1,5 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const userQueries = require('../db/queries/users');
 const twilio = require('../public/scripts/users');
 
@@ -19,22 +19,27 @@ router.get('/:id', (req, res) => { // ask mentor about :id
 
 // POST request for orders
 router.post('/', (req, res) => {
-  const data = {...req.body};
-  userQueries.addOrder({data})
+  const body = req.body;
+  console.log("BODY", body);
+  // return res.json({});
+  userQueries.addOrder(body)
     .then(data => {
       // msg to the owner
-      // twilio.sendText(`Hey, we have a new order! Order ID is => ${req.body.cart_items.order_id}, the Product ID is ${req.body.cart_items.product_id} we need ${req.body.cart_items.quantity} of it.`);
-      
-      // // customer update
-      // console.log("Sending msg to the customer");
-      // const msgToCustomer = setTimeout(twilio.sendText(`This a text for the ${req.body.customer.name}. Your phone number is ${req.body.customer.phone}. The total cost of your order will be ${req.body.customer.total_cost}`), 10000);
-      // msgToCustomer();
-      res.send(data);
+      console.log("DATA from insert file", data);
+      return twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
+    })
+    .then(() => {
+      return twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
+    })
+    .then(() => {
+      res.json(data);
     })
     .catch(e => {
       console.log(e);
-      res.send(e);
+      res.json(e);
     });
 });
 
-
+// twillio customer gets 3 msg "Recieved your order", "It will take x mins", "Order is ready"
+// need extra post routes for messages
+// one more page with 
