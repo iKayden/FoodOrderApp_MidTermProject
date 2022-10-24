@@ -3,7 +3,9 @@
 $(document).ready(function () {
   const order = {
     customer: { name: "John Smith", phone: "1236667777", total_cost: 69420 },
-    cart_items: {order_id: 5, product_id: 3, quantity: 4 },
+    cart_items: { order_id: 5, product_id: 3, quantity: 4 },
+    beverages: {},
+    total_cost: 0,
   };
 
   //productsResponse is used to store the data we get from database (products table)
@@ -15,7 +17,9 @@ $(document).ready(function () {
   const createProductElement = function (product) {
     const $product = $(`
     <article>
-      <div class="price" key=${product.id}>Add 1 to cart ($${product.price})</div>
+      <div class="price" key=${product.id}>Add 1 to cart ($${
+      product.price / 100
+    })</div>
       <div class="product">
         <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
@@ -45,8 +49,44 @@ $(document).ready(function () {
       };
     });
 
-    const $cartButton = $("#cartButton");
-    $cartButton.click(function() {
+    const calculateTotalCost = function (order, productInfo) {
+      let result = 0;
+      for (item in order) {
+        console.log(item);
+        const cost = productInfo[item].price * order[item];
+        result += cost;
+      }
+      //tax rate is 5%
+      const tax = result * 0.05;
+      result += tax;
+      result = Math.round(result) / 100;
+      return result;
+    };
+
+    const createOrderItem = function (itemId, quantity) {
+      const $item = $(`
+      <article>
+        <div class="item-price" key=${itemId}>$${
+        (productsResponse[itemId].price * quantity) / 100
+      }</div>
+        <div class="item-info">
+            <div class="product-name">${productsResponse[itemId].name}</div>
+            <div class="quantity">quantity:${quantity}</div>
+        </div>
+      </article>`);
+      return $item;
+    };
+
+    const renderOrderItems = function (items) {
+      for (item in items) {
+        //item is the id of item, items[item] is the quantity of item.
+        const $item = createOrderItem(item, items[item]);
+        $items.append($item);
+      }
+    };
+
+    const $placeOrder = $(".placeOrder");
+    $placeOrder.click(function () {
       $.ajax({
         url: "/orders",
         method: "POST",
@@ -56,6 +96,7 @@ $(document).ready(function () {
       });
     });
 
+    const $cartButton = $("#cartButton");
     $cartButton.click(function () {
       renderOrderItems(order.beverages);
 
