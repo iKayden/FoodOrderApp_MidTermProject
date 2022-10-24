@@ -3,11 +3,6 @@ const router  = express.Router();
 const userQueries = require('../db/queries/users');
 const twilio = require('../public/scripts/users');
 
-const authToken = process.env.AUTH_TOKEN;
-const accountSid = process.env.ACCOUNT_SID;
-const client = require('twilio')(accountSid, authToken);
-
-
 module.exports = router;
 
 router.get('/:id', (req, res) => { // ask mentor about :id
