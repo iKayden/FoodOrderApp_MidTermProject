@@ -12,7 +12,9 @@ $(document).ready(function () {
   const createProductElement = function (product) {
     const $product = $(`
     <article>
-      <div class="price" key=${product.id}>Add 1 to cart ($${product.price})</div>
+      <div class="price" key=${product.id}>Add 1 to cart ($${
+      product.price / 100
+    })</div>
       <div class="product">
         <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
