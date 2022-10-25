@@ -48,7 +48,7 @@ const onPriceClick = function () {
 
 const calculateTotalCost = function (order, productInfo) {
   let result = 0;
-  for (item in order) {
+  for (const item in order) {
     console.log(item);
     const cost = productInfo[item].price * order[item];
     result += cost;

@@ -8,6 +8,15 @@ const getAllCustomers = () => { //Used by Admin
     });
 };
 
+const getProductsById = (arr) => {
+  const productsQuery = `SELECT * FROM products WHERE id IN ($1,$2,$3,$4,$5,$6,$7)`;
+  return db.query(productsQuery, [arr])
+    .then(data => {
+      return data.rows;
+    });
+};
+
+
 const getAllProducts = () => {
   const productsQuery = `SELECT * FROM products;`;
   return db.query(productsQuery)

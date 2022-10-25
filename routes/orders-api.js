@@ -20,7 +20,6 @@ router.get('/:id', (req, res) => { // ask mentor about :id
 // POST request for orders
 router.post('/', (req, res) => {
   const body = req.body;
-  console.log("BODY", body);
   userQueries.addOrder(body)
     .then(data => {
       // function to calculate total cost
