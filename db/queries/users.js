@@ -18,14 +18,12 @@ const getAllProducts = () => {
 
 const getOneProduct = (productId) => {
   const oneProductQuery = `
-  SELECT * FROM products WHERE id = $1;
-  `;
+  SELECT * FROM products WHERE id = $1;`;
   return db.query(oneProductQuery, [productId])
     .then(data => {
-      console.log('data.rows--->', data.rows[0])
+      // console.log('data.rows--->', data.rows[0])
       return data.rows[0];
     });
-
 };
 
 
@@ -75,8 +73,8 @@ const getOrderDetails = () => {
 };
 
 const addOrder = function(order) {
-  console.log("ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER",order.customer);
-  console.log("phone", order.customer.phone);
+  // console.log("ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER",order.customer);
+  // console.log("phone", order.customer.phone);
   return db
     .query(
       `INSERT INTO orders (phone, total_cost)
@@ -85,8 +83,16 @@ const addOrder = function(order) {
     .then(data=> {
       return data.rows[0];
     })
-
 };
 
+const getPriceById = (id) =>{
+  const productsQuery = `SELECT price FROM products WHERE id = $1`;
+  return new Promise((resolve, reject) => {
+  db.query(productsQuery, [id])
+    .then(data => {
+      resolve(data.rows[0].price)
+    });
+  })
+}
 
-module.exports = { getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct, addOrder};
+module.exports = { getPriceById, getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct, addOrder };
