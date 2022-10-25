@@ -1,0 +1,23 @@
+.item-price {
+  text-align: center;
+  background-color: #e5baba;
+}
+
+.plus, .minus, .quantity-number {
+  margin: 0 8px;
+}
+
+.plus,.minus{
+  border-color: black;
+  border-radius: 8px;
+  padding: 0 8px;
+  background-color: transparent;
+}
+
+.product-name {
+  font-weight:bold;
+}
+
+.item-info{
+  padding:8px;
+}
