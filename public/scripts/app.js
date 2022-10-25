@@ -4,14 +4,11 @@ const order = {
     phone: "1236667777",
   },
   total_cost: 0,
-  cart_items: {
-    product_id: 3,
-    quantity: 4,
-  },
+  cart_items: [],
   beverages: {},
 };
 //  ******************* START ********************
-$(document).ready(function() {
+$(document).ready(function () {
   loadProducts();
 
   $(document).on("click", ".price", onPriceClick);
@@ -25,7 +22,7 @@ let productsResponse = {};
 const $products = $(".product-container");
 const $items = $(".modal-body");
 
-const loadProducts = function() {
+const loadProducts = function () {
   $.get("/api/products")
     .then((products) => {
       //Adding product's info to productsResponse, so it could be used to generate cart items.
@@ -39,7 +36,7 @@ const loadProducts = function() {
     });
 };
 
-const onPriceClick = function() {
+const onPriceClick = function () {
   const $id = $(this).attr("key");
   order.beverages = {
     ...order.beverages,
@@ -49,7 +46,7 @@ const onPriceClick = function() {
   };
 };
 
-const calculateTotalCost = function(order, productInfo) {
+const calculateTotalCost = function (order, productInfo) {
   let result = 0;
   for (item in order) {
     console.log(item);
@@ -63,7 +60,7 @@ const calculateTotalCost = function(order, productInfo) {
   return result;
 };
 
-const onOrderClick = function() {
+const onOrderClick = function () {
   // $.ajax({
   //   url: "/api/orders",
   // method: POST
@@ -75,18 +72,19 @@ const onOrderClick = function() {
     product_id: key,
     quantity: order.beverages[key],
   }));
-  console.log(cart_items);
+  order.cart_items = cart_items;
+  console.log("cart item", cart_items);
   $.post("api/orders", order).then((result) => {
     console.log("RESULT FROM .post", result);
   });
 };
 
-const createOrderItem = function(itemId, quantity) {
+const createOrderItem = function (itemId, quantity) {
   const $item = $(`
     <article>
     <div class="item-price" key=${itemId}>$${
-  (productsResponse[itemId].price * quantity) / 100
-}</div>
+    (productsResponse[itemId].price * quantity) / 100
+  }</div>
     <div class="item-info">
     <div class="product-name">${productsResponse[itemId].name}</div>
     <div class="quantity">quantity:${quantity}</div>
@@ -95,12 +93,12 @@ const createOrderItem = function(itemId, quantity) {
   return $item;
 };
 
-const createProductElement = function(product) {
+const createProductElement = function (product) {
   const $product = $(`
     <article>
     <div class="price" key=${product.id}>Add 1 to cart ($${
-  product.price / 100
-})</div>
+    product.price / 100
+  })</div>
     <div class="product">
     <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
@@ -112,14 +110,15 @@ const createProductElement = function(product) {
   return $product;
 };
 
-const renderProducts = function(products) {
+const renderProducts = function (products) {
   products.forEach((product) => {
     const $product = createProductElement(product);
     $products.append($product);
   });
 };
 
-const renderOrderItems = function(items) {
+const renderOrderItems = function (items) {
+  $items.empty();
   for (item in items) {
     //item is the id of item, items[item] is the quantity of item.
     const $item = createOrderItem(item, items[item]);
@@ -127,7 +126,7 @@ const renderOrderItems = function(items) {
   }
 };
 
-const onCartClick = function() {
+const onCartClick = function () {
   renderOrderItems(order.beverages);
 
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
