@@ -98,7 +98,7 @@ const createOrderItem = function (itemId, quantity) {
   }</div>
     <div class="item-info">
     <div class="product-name">${productsResponse[itemId].name}</div>
-    <div class="quantity">quantity: <button class="plus">+</button><span class="quantity-value">${quantity}</span><button class="minus">-</button></div>
+    <div class="quantity">Quantity: <button class="plus">+</button><span class="quantity-value">${quantity}</span><button class="minus">-</button></div>
     </div>
     </article>`);
   return $item;
