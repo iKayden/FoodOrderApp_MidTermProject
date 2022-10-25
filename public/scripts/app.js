@@ -76,8 +76,11 @@ const onOrderClick = function() {
     quantity: order.beverages[key],
   }));
   console.log(cart_items);
-  $.post("api/orders", order).then((result) => {
+  $.post("api/orders", order)
+  .then((result) => {
     console.log("RESULT FROM .post", result);
+    const formattedData = JSON.parse(result)
+    formattedData.message
   });
 };
 
