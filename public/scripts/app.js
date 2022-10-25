@@ -1,24 +1,22 @@
 const order = {
-	"customer": {
-		"name": "John Smith",
-		"phone": "1236667777"
-
-	},
-	"total_cost": 69420,
-	"cart_items": {
-		"product_id": 3,
-		"quantity": 4
-	},
-	"beverages": {}
-}
+  customer: {
+    name: "John Smith",
+    phone: "1236667777",
+  },
+  total_cost: 0,
+  cart_items: {
+    product_id: 3,
+    quantity: 4,
+  },
+  beverages: {},
+};
 //  ******************* START ********************
 $(document).ready(function() {
   loadProducts();
 
-  $(".placeOrder").on("click", onOrderClick);
-  $("#cartButton").on("click", onCartClick);
-  $(".price").on("click", onPriceClick);
-
+  $(document).on("click", ".price", onPriceClick);
+  $(document).on("click", ".placeOrder", onOrderClick);
+  $(document).on("click", "#cartButton", onCartClick);
 });
 //************End of DOCUMENT READY  **************
 
@@ -26,7 +24,6 @@ let productsResponse = {};
 
 const $products = $(".product-container");
 const $items = $(".modal-body");
-
 
 const loadProducts = function() {
   $.get("/api/products")
@@ -74,17 +71,22 @@ const onOrderClick = function() {
   //   dataType: "json",
   //   contentType: "application/json",
   // });
-  $.post("api/orders", order)
-    .then(result =>{ 
-      console.log("RESULT FROM .post", result)
-    })
+  const cart_items = Object.keys(order.beverages).map((key) => ({
+    product_id: key,
+    quantity: order.beverages[key],
+  }));
+  console.log(cart_items);
+  $.post("api/orders", order).then((result) => {
+    console.log("RESULT FROM .post", result);
+  });
 };
 
 const createOrderItem = function(itemId, quantity) {
   const $item = $(`
     <article>
-    <div class="item-price" key=${itemId}>$${(productsResponse[itemId].price * quantity) / 100
-    }</div>
+    <div class="item-price" key=${itemId}>$${
+  (productsResponse[itemId].price * quantity) / 100
+}</div>
     <div class="item-info">
     <div class="product-name">${productsResponse[itemId].name}</div>
     <div class="quantity">quantity:${quantity}</div>
@@ -96,8 +98,9 @@ const createOrderItem = function(itemId, quantity) {
 const createProductElement = function(product) {
   const $product = $(`
     <article>
-    <div class="price" key=${product.id}>Add 1 to cart ($${product.price / 100
-    })</div>
+    <div class="price" key=${product.id}>Add 1 to cart ($${
+  product.price / 100
+})</div>
     <div class="product">
     <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
