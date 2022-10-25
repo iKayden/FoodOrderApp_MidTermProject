@@ -76,6 +76,8 @@ const onOrderClick = function () {
   console.log("cart item", cart_items);
   $.post("api/orders", order).then((result) => {
     console.log("RESULT FROM .post", result);
+    const formattedData = JSON.parse(result)
+    formattedData.message
   });
 };
 
