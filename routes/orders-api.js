@@ -18,36 +18,47 @@ router.get('/:id', (req, res) => { // ask mentor about :id
 });
 
 // POST request for orders
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+
   const body = req.body;
-  userQueries.addOrder(body)
-    .then(data => {
-      // function to calculate total cost
+  Promise.all(body.cart_items.map(row => {
 
-      const productInfo = userQueries.getOneProduct(body.cart_items.product_id)
-      // msg to the owner
-      // twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
-      return { productInfo, data };
-    })
-    // .then((data) => {
+    return userQueries.getPriceById(row.product_id)
+      .then((table) => {
+        row.price = table;
+        return row;
+      });
+  })).then(response => {
+    let totalPrice = 0;
+    for (let item of response) {
+      totalPrice += (item.quantity * item.price);
+      // totalPrice = totalPrice + tempPrice;
+    }
+    let tax = totalPrice * (0.05);
+    let totalAmount = totalPrice + tax;
+    console.log("Total Amount ", totalAmount);
 
-      //   twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
-      //   return data;
-      // })
+    //// TWILLIO AND DATABASE STUFF
+    // return res.json({});
+    userQueries.addOrder(body)
       .then((data) => {
-        console.log('big data----->', data)
-        console.log('productInfo.price---->', data.price);
-        console.log('productInfo.quantity---->', data.quantity);
+        // msg to the customer
+        twilio.sendText(`Hey, we have your order! Order ID is => ${data.id}, Your total cost is ${data.total_cost}`);
+        return { data };
+      }).then((data) => {
+        // msg to owner
+        twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
+        return { data };
+      }).then((data) => {
+        // res.json( {data} );
+        res.json({ message: 'Success!' });
+      }).catch(e => {
+        console.log(e);
+        res.json(e);
+      });
+    // twillio customer gets 3 msg "Recieved your order", "It will take x mins", "Order is ready"
+    // need extra post routes for messages
+    // one more page with
+  });
+}); //Router.post ENDS here.
 
-    // res.json( {data} );
-    res.json( { message: 'Success!' } );
-    })
-    .catch(e => {
-      console.log(e);
-      res.json(e);
-    });
-});
-
-// twillio customer gets 3 msg "Recieved your order", "It will take x mins", "Order is ready"
-// need extra post routes for messages
-// one more page with
