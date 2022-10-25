@@ -88,6 +88,7 @@ const onOrderClick = function () {
     $items.empty();
     $(".placeOrder").hide();
     $items.append($successMessage);
+    order.beverages = {};
   });
 };
 
@@ -140,7 +141,7 @@ const renderOrderItems = function (items) {
 
 const onCartClick = function () {
   renderOrderItems(order.beverages);
-
+  $(".placeOrder").show();
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
   const $totalCost = $(`
     <p class=total-cost>Total: $${totalCost}<p>
