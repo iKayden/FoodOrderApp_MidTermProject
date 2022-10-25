@@ -84,9 +84,10 @@ const onOrderClick = function () {
   }));
   order.cart_items = cart_items;
   $.post("api/orders", order).then((result) => {
-    console.log("RESULT FROM .post", result);
-    const formattedData = JSON.parse(result);
-    formattedData.message;
+    const $successMessage = $(`<p>${result.message}</p>`);
+    $items.empty();
+    $(".placeOrder").hide();
+    $items.append($successMessage);
   });
 };
 
