@@ -14,6 +14,8 @@ $(document).ready(function () {
   $(document).on("click", ".price", onPriceClick);
   $(document).on("click", ".placeOrder", onOrderClick);
   $(document).on("click", "#cartButton", onCartClick);
+  $(document).on("click", ".plus", onPlusClick);
+  $(document).on("click", ".minus", onMinusClick);
 });
 //************End of DOCUMENT READY  **************
 
@@ -36,12 +38,27 @@ const loadProducts = function () {
     });
 };
 
+const onPlusClick = function () {
+  //find product id
+  const $id = $(this).closest("article").attr("key");
+  //change quantity
+  order.beverages[$id]++;
+  //update quantity in HTML
+  $(this).next().text(order.beverages[$id]);
+};
+
+const onMinusClick = function () {
+  const $id = $(this).closest("article").attr("key");
+  //check if quantity is 0.
+  order.beverages[$id] === 0 ? 0 : order.beverages[$id]--;
+  $(this).prev().text(order.beverages[$id]);
+};
+
 const onPriceClick = function () {
   const $id = $(this).attr("key");
   order.beverages = {
     ...order.beverages,
     //if quantity is 0, quantity will be 1. If not, quantity will be increased by 1.
-
     [$id]: order.beverages[$id] ? order.beverages[$id] + 1 : 1,
   };
 };
@@ -61,35 +78,27 @@ const calculateTotalCost = function (order, productInfo) {
 };
 
 const onOrderClick = function () {
-  // $.ajax({
-  //   url: "/api/orders",
-  // method: POST
-  //   data: JSON.stringify(order),
-  //   dataType: "json",
-  //   contentType: "application/json",
-  // });
   const cart_items = Object.keys(order.beverages).map((key) => ({
     product_id: key,
     quantity: order.beverages[key],
   }));
   order.cart_items = cart_items;
-  console.log("cart item", cart_items);
   $.post("api/orders", order).then((result) => {
     console.log("RESULT FROM .post", result);
-    const formattedData = JSON.parse(result)
-    formattedData.message
+    const formattedData = JSON.parse(result);
+    formattedData.message;
   });
 };
 
 const createOrderItem = function (itemId, quantity) {
   const $item = $(`
-    <article>
+    <article key=${itemId}>
     <div class="item-price" key=${itemId}>$${
     (productsResponse[itemId].price * quantity) / 100
   }</div>
     <div class="item-info">
     <div class="product-name">${productsResponse[itemId].name}</div>
-    <div class="quantity">quantity:${quantity}</div>
+    <div class="quantity">quantity: <button class="plus">+</button><span class="quantity-value">${quantity}</span><button class="minus">-</button></div>
     </div>
     </article>`);
   return $item;
