@@ -5,17 +5,23 @@ const twilio = require('../public/scripts/users');
 
 module.exports = router;
 
-router.get('/:id', (req, res) => {
-  // ask mentor about :id
-  userQueries
-    .getOrderDetails(req.params.id) //Changed the function a bit
-    .then((orderDetails) => {
+router.get('/:id', (req, res) => { // ask mentor about :id
+  userQueries.getOrderDetails(req.params.id) //Changed the function a bit
+    .then(orderDetails => {
       res.json({ orderDetails });
     })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
     });
 });
+
+router.post('/:id', (req, res) => {
+  console.log("CHECK POST ID ");
+  // res.redirect('/');
+  res.sendStatus(200);
+})
 
 // POST request for orders
 router.post('/', (req, res) => {
@@ -62,3 +68,9 @@ router.get('/', (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
+
+// app.get("/",(req,res,next)=>{
+//   let timeStamp = new Date().getTime();
+//   let randomNum = Math.floor(Math.random(0,10)*1000);
+//   return res.json({timeStamp,randomNum});
+// });
