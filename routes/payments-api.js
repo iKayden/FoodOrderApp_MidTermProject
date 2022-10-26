@@ -15,16 +15,5 @@ router.get('/', (req, res) => {
     });
 });
 
-// router.post('/', (req, res) => {
-//   userQueries.paymentDetails() //Changed the function a bit
-//     .then(paymentDetails => {
-//       res.json({ paymentDetails });
-//     })
-//     .catch(err => {
-//       res
-//         .status(500)
-//         .json({ error: err.message });
-//     });
-// });
 
 module.exports = router;

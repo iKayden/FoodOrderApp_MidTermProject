@@ -5,21 +5,26 @@ const twilio = require('../public/scripts/users');
 
 module.exports = router;
 
-router.get('/:id', (req, res) => { // ask mentor about :id
-  userQueries.getOrderDetails(req.params.id) //Changed the function a bit
-    .then(orderDetails => {
-      res.json({ orderDetails });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-});
+// router.get('/:id', (req, res) => { // ask mentor about :id
+//   userQueries.getOrderDetails(req.params.id) //Changed the function a bit
+//     .then(orderDetails => {
+//       res.json({ orderDetails });
+//     })
+//     .catch(err => {
+//       res
+//         .status(500)
+//         .json({ error: err.message });
+//     });
+// });
+
+router.post('/:id', (req, res) => {
+  console.log("CHECK POST ID ");
+  res.redirect('/');
+})
 
 // POST request for orders
 router.post('/', async (req, res) => {
-
+  console.log("COOKIE HUNT FOR ID", req.cookies.user_id);
   const body = req.body;
   Promise.all(body.cart_items.map(row => {
 
@@ -39,7 +44,6 @@ router.post('/', async (req, res) => {
     console.log("Total Amount ", totalAmount);
 
     //// TWILLIO AND DATABASE STUFF
-    // return res.json({});
     userQueries.addOrder(body)
       .then((data) => {
         // msg to the customer
@@ -50,8 +54,8 @@ router.post('/', async (req, res) => {
         twilio.sendText(`Hey, we have a new order! Order ID is => ${data.id}, The total cost is ${data.total_cost}`);
         return { data };
       }).then((data) => {
-        // res.json( {data} );
-        res.json({ message: 'Success!' });
+        res.json({ message: 'Success! Wait for the confirmation.' });
+        // do extra pop up for status changes
       }).catch(e => {
         console.log(e);
         res.json(e);
@@ -67,9 +71,20 @@ router.get('/', (req, res) => {
     .then(orders => {
       res.json(orders);
     })
+    .then(data => {
+      let timeStamp = new Date().getTime();
+      let randomNum = Math.floor(Math.random(0,10)*1000);
+      return res.json({timeStamp,randomNum});
+    })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
 });
+
+// app.get("/",(req,res,next)=>{
+//   let timeStamp = new Date().getTime();
+//   let randomNum = Math.floor(Math.random(0,10)*1000);
+//   return res.json({timeStamp,randomNum});
+// });

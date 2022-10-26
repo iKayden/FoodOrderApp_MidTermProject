@@ -72,6 +72,17 @@ const getOrders = () => {
     });
 };
 
+
+const getPriceById = (id) =>{
+  const productsQuery = `SELECT price FROM products WHERE id = $1`;
+  return new Promise((resolve, reject) => {
+    db.query(productsQuery, [id])
+    .then(data => {
+      resolve(data.rows[0].price)
+    });
+  })
+}
+// ================= INSERT QUERIES ======================================
 const addOrder = function(order) {
   // console.log("ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER",order.customer);
   // console.log("phone", order.customer.phone);
@@ -85,14 +96,10 @@ const addOrder = function(order) {
     })
 };
 
-const getPriceById = (id) =>{
-  const productsQuery = `SELECT price FROM products WHERE id = $1`;
-  return new Promise((resolve, reject) => {
-  db.query(productsQuery, [id])
-    .then(data => {
-      resolve(data.rows[0].price)
-    });
-  })
-}
-
+// const statusChange = (orderStatus) => {
+//   return db
+//     .query(
+      
+//     )
+// }
 module.exports = { getPriceById, getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrders , getAllProducts, getOneProduct, addOrder };

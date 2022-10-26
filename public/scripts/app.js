@@ -187,7 +187,7 @@ const createOrderElement = function(order) {
         <div class="orderInfo"></div>
         <img src=https://image.shutterstock.com/image-vector/bubble-milk-tea-cup-icon-260nw-1767970652.jpg alt="photo_url">
         <div class="orderID">Order ID: ${order.id}</div>
-          <form>
+          <form action="/api/orders/${order.id}" method="POST" class="admin-order-form">
           <div><label for="order-question">How long will this take? </label><br>
           <input type="text" id="order-time-textbox" placeholder="Please enter a time."><br>
           <button type="submit">Accept Order</button>

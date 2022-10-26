@@ -7,6 +7,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -29,6 +30,7 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(express.static('public'));
 app.use(cookieParser()); // returns req, res, next
 // SPA will be served from html
@@ -38,6 +40,7 @@ app.use(cookieParser()); // returns req, res, next
 // Note: Feel free to replace the example routes below with your own
 // RESTful standart
 // const widgetApiRoutes = require('./routes/widgets-api');
+
 
 const customersApiRoutes = require('./routes/customers-api');
 const paymentsApiRoutes = require('./routes/payments-api');
