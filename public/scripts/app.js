@@ -18,6 +18,7 @@ $(document).ready(function() {
   $(document).on("click", "#cartButton", onCartClick);
   $(document).on("click", ".plus", onPlusClick);
   $(document).on("click", ".minus", onMinusClick);
+
 });
 //************End of DOCUMENT READY  **************
 
@@ -192,7 +193,7 @@ const createOrderElement = function(order) {
           <div><label for="order-question">How long will this take? </label><br>
           <input type="text" id="order-time-textbox" value="Please enter a time."><br>
           </form>
-          <button type="button">Accept Order</button>
+          <button name="accept-order" type="button">Accept Order</button>
           </div>
           </div>
           </div>
