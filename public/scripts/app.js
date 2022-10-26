@@ -8,7 +8,7 @@ const order = {
   beverages: {},
 };
 //  ******************* START ********************
-$(document).ready(function () {
+$(document).ready(function() {
   loadProducts();
 
   $(document).on("click", ".price", onPriceClick);
@@ -23,8 +23,9 @@ let productsResponse = {};
 
 const $products = $(".product-container");
 const $items = $(".modal-body");
+const $admin = $(".admin-container");
 
-const loadProducts = function () {
+const loadProducts = function() {
   $.get("/api/products")
     .then((products) => {
       //Adding product's info to productsResponse, so it could be used to generate cart items.
@@ -38,7 +39,7 @@ const loadProducts = function () {
     });
 };
 
-const onPlusClick = function () {
+const onPlusClick = function() {
   //find product id
   const $id = $(this).closest("article").attr("key");
   //change quantity
@@ -47,14 +48,14 @@ const onPlusClick = function () {
   $(this).next().text(order.beverages[$id]);
 };
 
-const onMinusClick = function () {
+const onMinusClick = function() {
   const $id = $(this).closest("article").attr("key");
   //check if quantity is 0.
   order.beverages[$id] === 0 ? 0 : order.beverages[$id]--;
   $(this).prev().text(order.beverages[$id]);
 };
 
-const onPriceClick = function () {
+const onPriceClick = function() {
   const $id = $(this).attr("key");
   order.beverages = {
     ...order.beverages,
@@ -63,7 +64,7 @@ const onPriceClick = function () {
   };
 };
 
-const calculateTotalCost = function (order, productInfo) {
+const calculateTotalCost = function(order, productInfo) {
   let result = 0;
   for (item in order) {
     console.log(item);
@@ -77,7 +78,7 @@ const calculateTotalCost = function (order, productInfo) {
   return result;
 };
 
-const onOrderClick = function () {
+const onOrderClick = function() {
   const cart_items = Object.keys(order.beverages).map((key) => ({
     product_id: key,
     quantity: order.beverages[key],
@@ -92,12 +93,11 @@ const onOrderClick = function () {
   });
 };
 
-const createOrderItem = function (itemId, quantity) {
+const createOrderItem = function(itemId, quantity) {
   const $item = $(`
     <article key=${itemId}>
-    <div class="item-price" key=${itemId}>$${
-    (productsResponse[itemId].price * quantity) / 100
-  }</div>
+    <div class="item-price" key=${itemId}>$${(productsResponse[itemId].price * quantity) / 100
+    }</div>
     <div class="item-info">
     <div class="product-name">${productsResponse[itemId].name}</div>
     <div class="quantity">Quantity: <button class="plus">+</button><span class="quantity-value">${quantity}</span><button class="minus">-</button></div>
@@ -106,12 +106,11 @@ const createOrderItem = function (itemId, quantity) {
   return $item;
 };
 
-const createProductElement = function (product) {
+const createProductElement = function(product) {
   const $product = $(`
     <article>
-    <div class="price" key=${product.id}>Add 1 to cart ($${
-    product.price / 100
-  })</div>
+    <div class="price" key=${product.id}>Add 1 to cart ($${product.price / 100
+    })</div>
     <div class="product">
     <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">
@@ -123,14 +122,14 @@ const createProductElement = function (product) {
   return $product;
 };
 
-const renderProducts = function (products) {
+const renderProducts = function(products) {
   products.forEach((product) => {
     const $product = createProductElement(product);
     $products.append($product);
   });
 };
 
-const renderOrderItems = function (items) {
+const renderOrderItems = function(items) {
   $items.empty();
   for (item in items) {
     //item is the id of item, items[item] is the quantity of item.
@@ -139,7 +138,7 @@ const renderOrderItems = function (items) {
   }
 };
 
-const onCartClick = function () {
+const onCartClick = function() {
   renderOrderItems(order.beverages);
   $(".placeOrder").show();
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
@@ -150,4 +149,38 @@ const onCartClick = function () {
   //Save total cost to the order so that it can be sent to backend;
   order.total_cost = totalCost * 100;
   $items.append($totalCost);
+};
+
+
+const loadOrders = function() {
+  $.get("/api/orders")
+    .then((orders) => {
+      renderOrders(orders);
+    })
+    .catch((error) => {
+      console.log("error", error.message);
+    });
+};
+
+const renderOrders = function(orders) {
+  orders.forEach((order) => {
+    const $order = $(`
+    <article>
+    <div class="newOrder" key=${orders.id}>You received a new order!</div>
+    <div class="order">
+        <div class="orderInfo">
+        <div class="orderID">${orders.id}</div>
+        <div class="orderName">${cart_items.id}</div>
+          <div class="quantity">${cart_items.quantity}</div>
+          <div><form>
+          <label for="time">How long will this take? Please enter a time.</label><br>
+          <input type="text" id="time" name="time" value="John"><br>
+          </form>
+          <button type="button">Order is Ready!</button>
+          </div>
+          </div>
+          </div>
+    </article>`);
+    return $order;
+  });
 };
