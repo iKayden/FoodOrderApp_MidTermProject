@@ -65,9 +65,11 @@ const getOrderDetails = () => {
 };
 
 const getOrders = () => {
-  const getOrdersQuery = 'SELECT * FROM orders;';
+  const getOrdersQuery =
+    'SELECT orders.id, orders.status, cart_items.quantity, cart_items.product_id, products.name FROM orders JOIN cart_items ON order_id=orders.id JOIN products ON products.id=product_id GROUP BY orders.id,cart_items.quantity,cart_items.product_id, products.name';
   return db.query(getOrdersQuery).then((data) => {
-    return data.rows;
+    console.log('orders', data.rows[0]);
+    return data.rows[0];
   });
 };
 
