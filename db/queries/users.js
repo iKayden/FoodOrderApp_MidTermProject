@@ -64,11 +64,11 @@ const paymentDetails = (orderId) => {
     });
 };
 
-const getOrderDetails = () => {
+const getOrders = () => {
   const getOrdersQuery = 'SELECT * FROM orders;';
   return db.query(getOrdersQuery)
     .then(data => {
-      return data.rows[0];
+      return data.rows;
     });
 };
 
@@ -95,4 +95,4 @@ const getPriceById = (id) =>{
   })
 }
 
-module.exports = { getPriceById, getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrderDetails , getAllProducts, getOneProduct, addOrder };
+module.exports = { getPriceById, getAllCustomers, getAllInfo, getOneCartItem, paymentDetails, getOrders , getAllProducts, getOneProduct, addOrder };

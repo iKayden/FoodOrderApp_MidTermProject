@@ -62,3 +62,14 @@ router.post('/', async (req, res) => {
   });
 }); //Router.post ENDS here.
 
+router.get('/', (req, res) => {
+  userQueries.getOrders()
+    .then(orders => {
+      res.json(orders);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+});
