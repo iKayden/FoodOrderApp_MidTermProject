@@ -1,8 +1,8 @@
-const db = require("../connection");
+const db = require('../connection');
 
 const getAllCustomers = () => {
   //Used by Admin
-  const allCustomersQuery = "SELECT * FROM customers;";
+  const allCustomersQuery = 'SELECT * FROM customers;';
   return db.query(allCustomersQuery).then((data) => {
     return data.rows;
   });
@@ -20,7 +20,7 @@ const getOneProduct = (productId) => {
   SELECT * FROM products WHERE id = $1;
   `;
   return db.query(oneProductQuery, [productId]).then((data) => {
-    console.log("data.rows--->", data.rows[0]);
+    console.log('data.rows--->', data.rows[0]);
     return data.rows[0];
   });
 };
@@ -51,25 +51,32 @@ const getOneCartItem = (itemId) => {
 };
 
 const paymentDetails = (orderId) => {
-  const paymentQuery = "SELECT * FROM payments WHERE order_id = $1;";
+  const paymentQuery = 'SELECT * FROM payments WHERE order_id = $1;';
   return db.query(paymentQuery, [orderId]).then((data) => {
     return data.rows[0];
   });
 };
 
 const getOrderDetails = () => {
-  const getOrdersQuery = "SELECT * FROM orders;";
+  const getOrdersQuery = 'SELECT * FROM orders;';
   return db.query(getOrdersQuery).then((data) => {
     return data.rows[0];
   });
 };
 
+const getOrders = () => {
+  const getOrdersQuery = 'SELECT * FROM orders;';
+  return db.query(getOrdersQuery).then((data) => {
+    return data.rows;
+  });
+};
+
 const addOrder = function (order) {
   console.log(
-    "ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER",
+    'ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER',
     order.customer
   );
-  console.log("phone", order.customer.phone);
+  console.log('phone', order.customer.phone);
   return db
     .query(
       `INSERT INTO orders (phone, total_cost)
@@ -97,6 +104,7 @@ module.exports = {
   getOneCartItem,
   paymentDetails,
   getOrderDetails,
+  getOrders,
   getAllProducts,
   getOneProduct,
   addOrder,

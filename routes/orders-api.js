@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const userQueries = require("../db/queries/users");
-const twilio = require("../public/scripts/users");
+const userQueries = require('../db/queries/users');
+const twilio = require('../public/scripts/users');
 
 module.exports = router;
 
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
   // ask mentor about :id
   userQueries
     .getOrderDetails(req.params.id) //Changed the function a bit
@@ -18,9 +18,9 @@ router.get("/:id", (req, res) => {
 });
 
 // POST request for orders
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   const body = req.body;
-  const ids = body.cart_items.map((item) => item.product_id).join(",");
+  const ids = body.cart_items.map((item) => item.product_id).join(',');
   userQueries.getProductsByIds(ids).then((data) => {
     let totalCost = 0;
     body.cart_items.forEach((item) => {
@@ -45,7 +45,7 @@ router.post("/", (req, res) => {
             data.id
           }, The total cost is $${data.total_cost / 100}.`
         );
-        res.json({ message: "Success!" });
+        res.json({ message: 'Success!' });
       })
       .catch((e) => {
         console.log(e);
@@ -54,6 +54,13 @@ router.post("/", (req, res) => {
   });
 });
 
-// twillio customer gets 3 msg "Recieved your order", "It will take x mins", "Order is ready"
-// need extra post routes for messages
-// one more page with
+router.get('/', (req, res) => {
+  userQueries
+    .getOrders()
+    .then((orders) => {
+      res.json(orders);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});

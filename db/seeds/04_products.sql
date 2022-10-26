@@ -25,15 +25,15 @@ INSERT INTO products (name, price, photo_url, description)
 VALUES ('yin yang', 700, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-YIN-YANG-REGULIER_350x350.png', 'Our bubble teas with black tea and milk offer the perfect balance of sweetness. When ordering, you can decide to add ice to your bubble tea or not. You can also adjust the sugar level to your taste. All our black teas with milk are served with delicious tapioca pearls.');
 
 INSERT INTO products (name, price, photo_url, description) 
-VALUES ('signature', 5, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-ORIGINAL-REGULIER_350x350.png', 'Our bubble teas with black tea and milk offer the perfect balance of sweetness. When ordering, you can decide to add ice to your bubble tea or not. You can also adjust the sugar level to your taste. All our black teas with milk are served with delicious tapioca pearls.');
+VALUES ('signature', 1000, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-ORIGINAL-REGULIER_350x350.png', 'Our bubble teas with black tea and milk offer the perfect balance of sweetness. When ordering, you can decide to add ice to your bubble tea or not. You can also adjust the sugar level to your taste. All our black teas with milk are served with delicious tapioca pearls.');
 
 -- Specials 
 
 INSERT INTO products (name, price, photo_url, description) 
-VALUES ('Eileen''s Joy', 800, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-PETIT-BOBA-REGULIER_350x350.png', 'Served with our rainbow jelly and your choice of fruit juice flavor, your little ones will have something to celebrate!');
+VALUES ('Eileen''s Joy', 1000, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-PETIT-BOBA-REGULIER_350x350.png', 'Served with our rainbow jelly and your choice of fruit juice flavor, your little ones will have something to celebrate!');
 
 INSERT INTO products (name, price, photo_url, description) 
-VALUES ('Rosanna''s Energy', 10, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-TARO-REGULIER_350x350.png', 'Our Taro black tea with milk is honestly one of our favourites. Its beautiful light purple colour, creamy and starchy texture, and sweet taste like vanilla attract many bubble tea lovers.');
+VALUES ('Rosanna''s Energy', 1000, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-TARO-REGULIER_350x350.png', 'Our Taro black tea with milk is honestly one of our favourites. Its beautiful light purple colour, creamy and starchy texture, and sweet taste like vanilla attract many bubble tea lovers.');
 
 INSERT INTO products (name, price, photo_url, description) 
 VALUES ('Kayden''s Tears', 550, 'https://bubbleteashop.com/wp-content/uploads/2022/06/BBTS-SUNSET-REGULIER_350x350.png', 'Our bubble teas with green tea and real fruit juice offer a fun and refreshing beverage. When ordering, you can adjust the sugar level to your taste. All our green teas are served with our authentic coconut jelly. You can always replace your coconut jelly for tapioca pearls.');
