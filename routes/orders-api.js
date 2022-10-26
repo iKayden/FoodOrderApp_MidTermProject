@@ -54,12 +54,28 @@ router.post('/', (req, res) => {
   });
 });
 
+const getOrderInfo = function (data) {
+  const grouped = {};
+  data.forEach((order) => {
+    const { id, status, name, quantity, product_id } = order;
+    const product = { name, quantity, id: product_id };
+    if (grouped[id]) {
+      grouped[id].products.push(product);
+    } else {
+      grouped[id] = {
+        id,
+        status,
+        products: [product],
+      };
+    }
+  });
+  return Object.values(grouped);
+};
+
 router.get('/', (req, res) => {
   userQueries
     .getOrders()
-    .then((orders) => {
-      res.json(orders);
-    })
+    .then((input) => res.json(getOrderInfo(input)))
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });

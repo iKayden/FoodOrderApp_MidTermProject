@@ -66,11 +66,28 @@ const getOrderDetails = () => {
 
 const getOrders = () => {
   const getOrdersQuery =
-    'SELECT orders.id, orders.status, cart_items.quantity, cart_items.product_id, products.name FROM orders JOIN cart_items ON order_id=orders.id JOIN products ON products.id=product_id GROUP BY orders.id,cart_items.quantity,cart_items.product_id, products.name';
+    'SELECT orders.id, orders.status, cart_items.quantity, cart_items.product_id, products.name FROM orders JOIN cart_items ON order_id=orders.id JOIN products ON products.id=product_id GROUP BY orders.id,cart_items.quantity,cart_items.product_id, products.name;';
   return db.query(getOrdersQuery).then((data) => {
-    console.log('orders', data.rows[0]);
-    return data.rows[0];
+    return data.rows;
   });
+};
+
+const getOrderInfo = function (data) {
+  const grouped = {};
+  data.forEach((order) => {
+    const { id, status, name, quantity, product_id } = order;
+    const product = { name, quantity, id: product_id };
+    if (grouped[id]) {
+      grouped[id].products.push(product);
+    } else {
+      grouped[id] = {
+        id,
+        status,
+        products: [product],
+      };
+    }
+  });
+  return Object.values(grouped);
 };
 
 const addOrder = function (order) {
@@ -111,4 +128,5 @@ module.exports = {
   getOneProduct,
   addOrder,
   getProductsByIds,
+  getOrderInfo,
 };
