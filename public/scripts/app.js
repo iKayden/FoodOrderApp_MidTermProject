@@ -10,8 +10,7 @@ const order = {
 
 //  ******************* START ********************
 $(document).ready(function() {
-  loadProducts();
-  loadOrders();
+  loadAllData();
 
   $(document).on("click", ".price", onPriceClick);
   $(document).on("click", ".placeOrder", onOrderClick);
@@ -28,16 +27,17 @@ const $products = $(".product-container");
 const $items = $(".modal-body");
 const $orders = $(".orders-container");
 
-const loadProducts = function() {
+const loadAllData = function() {
   $.get("/api/products")
-    .then((products) => {
-      //Adding product's info to productsResponse, so it could be used to generate cart items.
-      console.log('products.info--->', products.info)
-      products.info.forEach((product) => {
-        productsResponse[product.id] = product;
-      });
-
-      renderProducts(products.info);
+    .then((data) => {
+      if (data.type === "orders") {
+        renderOrders(data.orders);
+      } else {
+        data.info.forEach((datum) => {
+          productsResponse[datum.id] = datum;
+        });
+        renderProducts(data.info);
+      }
     })
     .catch((error) => {
       console.log("error", error.message);
@@ -116,9 +116,8 @@ const createProductElement = function(product) {
     <article>
     <div class="price" key=${product.id}>Add to <i class="fa-solid fa-cart-plus"></i>
     <span class="price-tag" >
-    <i class="fa-solid fa-dollar-sign"></i>${
-    product.price / 100
-  }
+    <i class="fa-solid fa-dollar-sign"></i>${product.price / 100
+    }
     </span>
   </div>
     <div class="product">
@@ -165,7 +164,7 @@ const onCartClick = function() {
 const loadOrders = function() {
   $.get("/api/orders")
     .then((orders) => {
-      console.log('orders---->', orders)
+      console.log('orders---->', orders);
       renderOrders(orders);
     })
     .catch((error) => {
@@ -186,12 +185,13 @@ const createOrderElement = function(order) {
   <article>
   <div class="newOrder" key=${order.id}>You received a new order!</div>
   <div class="order">
-        <div class="orderInfo">
+        <div class="orderInfo"></div>
         <img src=https://image.shutterstock.com/image-vector/bubble-milk-tea-cup-icon-260nw-1767970652.jpg alt="photo_url">
         <div class="orderID">Order ID: ${order.id}</div>
           <form>
           <div><label for="order-question">How long will this take? </label><br>
-          <input type="text" id="order-time-textbox" value="Please enter a time."><br>
+          <input type="text" id="order-time-textbox" placeholder="Please enter a time."><br>
+          <button type="submit">Accept Order</button>
           </form>
           <button name="accept-order" type="button">Accept Order</button>
           </div>
