@@ -12,7 +12,6 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -42,6 +41,7 @@ const paymentsApiRoutes = require('./routes/payments-api');
 const ordersApiRoutes = require('./routes/orders-api');
 const cartItemsApiRoutes = require('./routes/cart-items-api');
 const productsApiRoutes = require('./routes/products-api');
+const smsRoutes = require('./routes/sms');
 // const orderTimeApiRoutes = require('./routes/order-time-api');
 
 // Mount all resource routes
@@ -53,6 +53,7 @@ app.use('/api/orders', ordersApiRoutes);
 app.use('/api/cart_items', cartItemsApiRoutes);
 app.use('/api/products', productsApiRoutes);
 app.use('/api/payments', paymentsApiRoutes);
+app.use('/sms', smsRoutes);
 
 // app.use('/api/order_time', orderTimeApiRoutes);
 
