@@ -21,6 +21,13 @@
   <link rel="stylesheet" href="/styles/nav.css" />
   <link rel="stylesheet" href="/styles/products.css" />
   <link rel="stylesheet" href="/styles/cart.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Josefin+Sans:wght@500;600&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Script (Kayden's kit) -->
+  <script src="https://kit.fontawesome.com/3ec23707da.js" crossorigin="anonymous"></script>
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
@@ -28,13 +35,39 @@
 
 <body>
   <nav>
-    <div id="webName">Cute Bubble Tea</div>
+    <div id="webName"><img class="logo" src="/images/logo.png" alt=""></div>
     <div id="login">Login</div>
     <div id="register">Register</div>
   </nav>
 
   <main>
-    <img src="/images/main-page-image.png">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="/images/main-page-image.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/main-page2.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="/images/main-page3.jpg" class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- <img src="/images/main-page-image.png"> -->
     <section class="product-container">
     </section>
     <!-- Button trigger modal -->

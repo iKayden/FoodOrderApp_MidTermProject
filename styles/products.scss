@@ -13,15 +13,38 @@
 article {
   margin-bottom: 24px;
   border: 1px solid #D8A8A8;
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px;
+  background-color: #ffafcc5e;
  }
 
 article img{
-  width:30%;
+  width:100px;
   height:80px;
   margin-right: 16px;
- }
+}
+article:hover {
+  box-shadow: 10px 10px 0px 0px rgba(229, 6, 136, 0.364);
+}
 
+main section article .price-tag {
+  float: right;
+  margin-right: 25px;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+main section article div i {
+  color: #d4a373;
+}
+main section article div i:hover {
+  color: #ffb703;
+}
+
+main section article div .fa-dollar-sign {
+  color: green;
+}
+main section article div .fa-dollar-sign:hover {
+  color: greenyellow;
+}
 .product {
   display: flex;
   padding: 16px;
@@ -29,14 +52,27 @@ article img{
 
 .price{
   text-align: center;
-  background-color:#e5baba;
+  background-color:#ffc8dd;
   height:24px;
+  border-radius: 0px 8px 0px 0px ;
 }
 
+.price:hover {
+  cursor: pointer;
+}
 .productName {
   text-align:center;
   size:24;
   font-weight: bold;
   margin-bottom: 8px;
+  text-transform: uppercase;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
+.description {
+  font-weight: 600;
+}
+
+#login , #register {
+  cursor: pointer;
+}
