@@ -112,9 +112,14 @@ const createOrderItem = function(itemId, quantity) {
 
 const createProductElement = function(product) {
   const $product = $(`
-    <article >
-    <div class="price" key=${product.id}>Add 1 to cart ($${product.price / 100
-    })</div>
+    <article>
+    <div class="price" key=${product.id}>Add to <i class="fa-solid fa-cart-plus"></i>
+    <span class="price-tag" >
+    <i class="fa-solid fa-dollar-sign"></i>${
+    product.price / 100
+  }
+    </span>
+  </div>
     <div class="product">
     <img src=${product.photo_url} alt="photo_url">
         <div class="productInfo">

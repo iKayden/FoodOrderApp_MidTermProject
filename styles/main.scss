@@ -11,8 +11,14 @@ main>img{
   position: fixed;
   bottom: 10px;
   right: 10px;
-  color: black;
+  color: #139f36;
   font-size: 20px;
   background-color: transparent;
   border-radius: 50%;
+  border-color: #a3f8af;
+}
+
+.carousel-inner, .carousel-item {
+  height: 313px;
+  max-width: 100%;
 }
