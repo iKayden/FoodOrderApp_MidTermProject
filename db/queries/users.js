@@ -57,6 +57,13 @@ const paymentDetails = (orderId) => {
   });
 };
 
+const getOrderById = (id) => {
+  const getOrderByIdQuery = `SELECT * FROM orders WHERE id=${id};`;
+  return db.query(getOrderByIdQuery).then((data) => {
+    return data.rows[0];
+  });
+};
+
 const getOrders = () => {
   const getOrdersQuery =
     'SELECT orders.id, orders.status, cart_items.quantity, cart_items.product_id, products.name FROM orders JOIN cart_items ON order_id=orders.id JOIN products ON products.id=product_id GROUP BY orders.id,cart_items.quantity,cart_items.product_id, products.name;';
