@@ -4,7 +4,9 @@ const userQueries = require('../db/queries/users');
 
 
 router.get('/', (req, res) => { //gives all the info front end needs
-  // res.cookie('user_id', 'customer') // cookie set-up 
+  if (!req.cookies.user_id) {
+    res.cookie('user_id', 'customer') // cookie set-up 
+  }
   // console.log("REQ QUERY", req.query);
   if (req.cookies.user_id === "admin") {
     userQueries.getOrders()
