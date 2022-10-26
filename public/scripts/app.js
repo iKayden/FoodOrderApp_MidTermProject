@@ -17,6 +17,7 @@ $(document).ready(function() {
   $(document).on("click", "#cartButton", onCartClick);
   $(document).on("click", ".plus", onPlusClick);
   $(document).on("click", ".minus", onMinusClick);
+  $(document).on("click", ".accept-order-btn", onAcceptOrder);
 
 });
 //************End of DOCUMENT READY  **************
@@ -175,6 +176,10 @@ const loadOrders = function() {
 const renderOrders = function(orders) {
   orders.forEach((order) => {
     const $order = createOrderElement(order);
+    $order.find(".accept-order-btn").click(function(){
+      $(this).val("Order Ready").siblings().hide();
+      console.log("FROM RENDERS this ====>",this );
+    });
     $orders.append($order);
   });
 };
@@ -188,10 +193,10 @@ const createOrderElement = function(order) {
         <div class="orderInfo"></div>
         <img src=https://image.shutterstock.com/image-vector/bubble-milk-tea-cup-icon-260nw-1767970652.jpg alt="photo_url">
         <div class="orderID">Order ID: ${order.id}</div>
-          <form>
+          <form action="/api/orders/${order.id}" method="POST" class="admin-order-form">
           <div><label for="order-question">How long will this take? </label><br>
-          <input type="text" id="order-time-textbox" placeholder="Please enter a time."><br>
-          <button type="submit">Accept Order</button>
+          <input type="text" class="order-time-textbox" placeholder="Please enter a time."><br>
+          <input type="submit" class="accept-order-btn" value="Accept order">
           </form>
           <button name="accept-order" type="button">Accept Order</button>
           </div>
@@ -200,3 +205,9 @@ const createOrderElement = function(order) {
     </article>`);
   return $order;
 };
+
+const onAcceptOrder = (e) => {
+  console.log("E from jquery function", e);
+  e.preventDefault(); // preventing browser from reloading
+  $('.order-time-textbox').click()
+}

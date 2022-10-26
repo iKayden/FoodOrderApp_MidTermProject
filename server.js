@@ -7,12 +7,12 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.set('view engine', 'ejs');
-
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -29,6 +29,7 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(express.static('public'));
 app.use(cookieParser()); // returns req, res, next
 // SPA will be served from html
@@ -39,11 +40,13 @@ app.use(cookieParser()); // returns req, res, next
 // RESTful standart
 // const widgetApiRoutes = require('./routes/widgets-api');
 
+
 const customersApiRoutes = require('./routes/customers-api');
 const paymentsApiRoutes = require('./routes/payments-api');
 const ordersApiRoutes = require('./routes/orders-api');
 const cartItemsApiRoutes = require('./routes/cart-items-api');
 const productsApiRoutes = require('./routes/products-api');
+const smsRoutes = require('./routes/sms');
 // const orderTimeApiRoutes = require('./routes/order-time-api');
 
 // Mount all resource routes
@@ -55,6 +58,7 @@ app.use('/api/orders', ordersApiRoutes);
 app.use('/api/cart_items', cartItemsApiRoutes);
 app.use('/api/products', productsApiRoutes);
 app.use('/api/payments', paymentsApiRoutes);
+app.use('/sms', smsRoutes);
 
 // app.use('/api/order_time', orderTimeApiRoutes);
 
