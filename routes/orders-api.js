@@ -26,6 +26,8 @@ router.post('/:id', (req, res) => {
 // POST request for orders
 router.post('/', (req, res) => {
   const body = req.body;
+  const user_id = req.cookies.user_id;
+  // console.log("LOOKING FOR COOKIE", user_id);
   const ids = body.cart_items.map((item) => item.product_id).join(',');
   userQueries.getProductsByIds(ids).then((data) => {
     let totalCost = 0;
@@ -39,19 +41,19 @@ router.post('/', (req, res) => {
     userQueries
       .addOrder(body)
       .then((data) => {
-        // msg to the customer
-        twilio.sendText(
-          `Hey, we have your order! Order ID is => ${
-            data.id
-          }, Your total cost is $${data.total_cost / 100}.`
-        );
-        // msg to the owner
-        twilio.sendText(
-          `Hey, we have a new order! Order ID is => ${
-            data.id
-          }, The total cost is $${data.total_cost / 100}.`
-        );
-        res.json({ message: 'Success!', id: data.id });
+        // // msg to the customer
+        // twilio.sendText(
+        //   `Hey, we have your order! Order ID is => ${
+        //     data.id
+        //   }, Your total cost is $${data.total_cost / 100}.`
+        // );
+        // // msg to the owner
+        // twilio.sendText(
+        //   `Hey, we have a new order! Order ID is => ${
+        //     data.id
+        //   }, The total cost is $${data.total_cost / 100}.`
+        // );
+        res.json({ message: 'Success!', order_id: data.id, user_id });
       })
       .catch((e) => {
         console.log(e);
