@@ -7,9 +7,11 @@ const order = {
   cart_items: [],
   beverages: {},
 };
+
 //  ******************* START ********************
 $(document).ready(function() {
   loadProducts();
+  loadOrders();
 
   $(document).on("click", ".price", onPriceClick);
   $(document).on("click", ".placeOrder", onOrderClick);
@@ -23,15 +25,17 @@ let productsResponse = {};
 
 const $products = $(".product-container");
 const $items = $(".modal-body");
-const $admin = $(".admin-container");
+const $orders = $(".orders-container");
 
 const loadProducts = function() {
   $.get("/api/products")
     .then((products) => {
       //Adding product's info to productsResponse, so it could be used to generate cart items.
+      console.log('products.info--->', products.info)
       products.info.forEach((product) => {
         productsResponse[product.id] = product;
       });
+
       renderProducts(products.info);
     })
     .catch((error) => {
@@ -108,7 +112,7 @@ const createOrderItem = function(itemId, quantity) {
 
 const createProductElement = function(product) {
   const $product = $(`
-    <article>
+    <article >
     <div class="price" key=${product.id}>Add 1 to cart ($${product.price / 100
     })</div>
     <div class="product">
@@ -155,6 +159,7 @@ const onCartClick = function() {
 const loadOrders = function() {
   $.get("/api/orders")
     .then((orders) => {
+      console.log('orders---->', orders)
       renderOrders(orders);
     })
     .catch((error) => {
@@ -164,23 +169,28 @@ const loadOrders = function() {
 
 const renderOrders = function(orders) {
   orders.forEach((order) => {
-    const $order = $(`
-    <article>
-    <div class="newOrder" key=${orders.id}>You received a new order!</div>
-    <div class="order">
+    const $order = createOrderElement(order);
+    $orders.append($order);
+  });
+};
+
+const createOrderElement = function(order) {
+  // <!-- <div class="order-name">${cart_items.quantity}x of ${products.name}</div> --!>
+  const $order = $(`
+  <article>
+  <div class="newOrder" key=${order.id}>You received a new order!</div>
+  <div class="order">
         <div class="orderInfo">
-        <div class="orderID">${orders.id}</div>
-        <div class="orderName">${cart_items.id}</div>
-          <div class="quantity">${cart_items.quantity}</div>
-          <div><form>
-          <label for="time">How long will this take? Please enter a time.</label><br>
-          <input type="text" id="time" name="time" value="John"><br>
+        <img src=https://image.shutterstock.com/image-vector/bubble-milk-tea-cup-icon-260nw-1767970652.jpg alt="photo_url">
+        <div class="orderID">Order ID: ${order.id}</div>
+          <form>
+          <div><label for="order-question">How long will this take? </label><br>
+          <input type="text" id="order-time-textbox" value="Please enter a time."><br>
           </form>
-          <button type="button">Order is Ready!</button>
+          <button type="button">Accept Order</button>
           </div>
           </div>
           </div>
     </article>`);
-    return $order;
-  });
+  return $order;
 };
