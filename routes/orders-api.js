@@ -19,7 +19,8 @@ module.exports = router;
 
 router.post('/:id', (req, res) => {
   console.log("CHECK POST ID ");
-  res.redirect('/');
+  // res.redirect('/');
+  res.sendStatus(200);
 })
 
 // POST request for orders
