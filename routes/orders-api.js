@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
             data.id
           }, The total cost is $${data.total_cost / 100}.`
         );
-        res.json({ message: 'Success!' });
+        res.json({ message: 'Success!', id: data.id });
       })
       .catch((e) => {
         console.log(e);
@@ -54,28 +54,10 @@ router.post('/', (req, res) => {
   });
 });
 
-const getOrderInfo = function (data) {
-  const grouped = {};
-  data.forEach((order) => {
-    const { id, status, name, quantity, product_id } = order;
-    const product = { name, quantity, id: product_id };
-    if (grouped[id]) {
-      grouped[id].products.push(product);
-    } else {
-      grouped[id] = {
-        id,
-        status,
-        products: [product],
-      };
-    }
-  });
-  return Object.values(grouped);
-};
-
 router.get('/', (req, res) => {
   userQueries
     .getOrders()
-    .then((input) => res.json(getOrderInfo(input)))
+    .then((input) => res.json(userQueries.getOrderInfo(input)))
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
