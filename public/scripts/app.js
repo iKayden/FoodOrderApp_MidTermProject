@@ -122,7 +122,7 @@ const createProductElement = function(product) {
   const $product = $(`
     <article>
     <div class="price" key=${product.id
-    }>Add to <i class="fa-solid fa-cart-plus"></i>
+    }><button class="btn btn-warning">Add to Cart</button>
     <span class="price-tag" >
     <i class="fa-solid fa-dollar-sign"></i>${product.price / 100}
     </span>

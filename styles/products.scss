@@ -11,15 +11,15 @@
 }
 
 article {
-  margin-bottom: 24px;
-  border: 1px solid #D8A8A8;
+  margin: 40px 40px 10px 10px;
+  border: 1px solid #d8a8a8;
   border-radius: 8px;
   background-color: #ffafcc5e;
- }
+}
 
-article img{
-  width:100px;
-  height:80px;
+article img {
+  width: 100px;
+  height: 100px;
   margin-right: 16px;
 }
 article:hover {
@@ -29,14 +29,15 @@ article:hover {
 main section article .price-tag {
   float: right;
   margin-right: 25px;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
-main section article div i {
-  color: #d4a373;
-}
-main section article div i:hover {
-  color: #ffb703;
+.btn-warning {
+  height: inherit;
+  flex-flow: column-reverse;
+  justify-content: center;
+  background-color: #f307ff5c;
+  font-weight: 600;
 }
 
 main section article div .fa-dollar-sign {
@@ -48,31 +49,80 @@ main section article div .fa-dollar-sign:hover {
 .product {
   display: flex;
   padding: 16px;
- }
+}
 
-.price{
-  text-align: center;
-  background-color:#ffc8dd;
-  height:24px;
-  border-radius: 0px 8px 0px 0px ;
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffc8dd;
+  height: 33px;
+  border-radius: 0px 8px 0px 0px;
 }
 
 .price:hover {
   cursor: pointer;
 }
 .productName {
-  text-align:center;
-  size:24;
+  text-align: start;
+  size: 24;
   font-weight: bold;
   margin-bottom: 8px;
   text-transform: uppercase;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
+  color: #dc419d;
+  text-shadow: 1px 1px;
 }
 
 .description {
   font-weight: 600;
+  width: fit-content;
 }
 
-#login , #register {
+#login,
+#register {
   cursor: pointer;
+  background-color: #ffc8dd5b;
+}
+
+@media only screen and (max-width: 600px) {
+  article {
+    height: 350px;
+    overflow: scroll;
+    text-overflow: ellipsis;
+  }
+  .description {
+    width: auto;
+  }
+  .product {
+    flex-flow: column;
+    align-items: center;
+    width: auto;
+  }
+  .product-container {
+    padding: 0px 14px 14px 14px;
+  }
+
+  .price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    height: 33px;
+  }
+
+  article img {
+    width: 125px;
+    height: 135px;
+    margin-right: 16px;
+    border: 2px solid #dc419d;
+    border-radius: 15px;
+  }
+
+  .productName {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 20px;
+  }
 }

@@ -53,9 +53,13 @@
 
   <body>
     <nav>
-      <div id="webName"><img class="logo" src="/images/logo.png" alt="" /></div>
-      <div id="login">Login</div>
-      <div id="register">Register</div>
+      <div id="webName">
+        <a href="http://localhost:8080/"
+          ><img class="logo" src="/images/logo.png" alt=""
+        /></a>
+      </div>
+      <div id="login" class="btn btn-light">Login</div>
+      <div id="register" class="btn btn-light">Register</div>
     </nav>
 
     <main>
@@ -180,19 +184,12 @@
       crossorigin="anonymous"
     ></script>
   </body>
+  <footer>
+    <span>
+      <i class="fa-regular fa-copyright"></i> Made by
+      <a href="https://github.com/lyjeileen">Eileen</a>,
+      <a href="https://github.com/rosanna-z">Rosanna</a> and
+      <a href="https://github.com/iKayden">Kayden</a>. 2022 for Lighthouse Labs.
+    </span>
+  </footer>
 </html>
-
-
-<article>
-  <div class="newOrder" key=${order.id}>You received a new order!</div>
-    <div class="order">
-      <div class="orderInfo"></div>
-        <img src="../images/logo.png" alt="photo_url">
-          <div class="orderID">Order ID: ${order.id}</div>
-            <form action="/api/orders/17" method="POST" class="admin-order-form">
-              <div><label for="order-question">How long will this take? </label><br>
-                <input type="text" class="order-time-textbox" placeholder="Please enter a time."><br>
-                  <input type="submit" class="accept-order-btn" value="Accept order">
-            </form>
-          </div>
-</article>
