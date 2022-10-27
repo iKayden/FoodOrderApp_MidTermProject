@@ -10,8 +10,13 @@ module.exports = router;
 router.get('/:id', (req, res) => {
   userQueries
     .getOrderById(req.params.id)
-    .then((orderDetails) => {
-      res.json(orderDetails);
+    .then((data) => {
+      const time = format(
+        utcToZonedTime(data.ready_at, 'America/Los_Angeles'),
+        'p'
+      );
+      data.time = time;
+      res.json(data);
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
@@ -34,7 +39,6 @@ router.post('/:id', (req, res) => {
       } else {
         twilio.sendText(`Hey, your order is ready! Order ID is =>${data.id}.`);
       }
-      data.time = time;
       res.json(data);
     })
     .catch((err) => {
