@@ -47,14 +47,12 @@ router.post('/', (req, res) => {
       .then((data) => {
         // msg to the customer
         twilio.sendText(
-          `Hey, we have your order! Order ID is => ${
-            data.id
+          `Hey, we have your order! Order ID is => ${data.id
           }, Your total cost is $${data.total_cost / 100}.`
         );
         // msg to the owner
         twilio.sendText(
-          `Hey, we have a new order! Order ID is => ${
-            data.id
+          `Hey, we have a new order! Order ID is => ${data.id
           }, The total cost is $${data.total_cost / 100}.`
         );
         res.json({ message: 'Success!', order: data });
@@ -74,9 +72,3 @@ router.get('/', (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
-
-// app.get("/",(req,res,next)=>{
-//   let timeStamp = new Date().getTime();
-//   let randomNum = Math.floor(Math.random(0,10)*1000);
-//   return res.json({timeStamp,randomNum});
-// });
