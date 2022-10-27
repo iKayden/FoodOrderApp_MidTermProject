@@ -57,9 +57,9 @@ const paymentDetails = (orderId) => {
   });
 };
 
-const getOrderDetails = () => {
-  const getOrdersQuery = 'SELECT * FROM orders;';
-  return db.query(getOrdersQuery).then((data) => {
+const getOrderById = (id) => {
+  const getOrderByIdQuery = `SELECT * FROM orders WHERE id=${id};`;
+  return db.query(getOrderByIdQuery).then((data) => {
     return data.rows[0];
   });
 };
@@ -91,11 +91,6 @@ const getOrderInfo = function (data) {
 };
 
 const addOrder = function (order) {
-  console.log(
-    'ORDER DATA FROM ADDORDER FUNCTION IN THE DATA AND CUSTOMER',
-    order.customer
-  );
-  console.log('phone', order.customer.phone);
   return db
     .query(
       `INSERT INTO orders (phone, total_cost)
@@ -103,7 +98,22 @@ const addOrder = function (order) {
       [order.customer.phone, order.total_cost]
     )
     .then((data) => {
-      return data.rows[0];
+      const orderId = data.rows[0].id;
+      const values = order.cart_items
+        .map(
+          (item) => `(
+       ${orderId},${item.product_id},${item.quantity}
+      )`
+        )
+        .join(', ');
+      return db
+        .query(
+          `INSERT INTO cart_items (order_id, product_id, quantity)
+        VALUES ${values} RETURNING *`
+        )
+        .then(() => {
+          return data.rows[0];
+        });
     });
 };
 
@@ -122,7 +132,7 @@ module.exports = {
   getAllInfo,
   getOneCartItem,
   paymentDetails,
-  getOrderDetails,
+  getOrderById,
   getOrders,
   getAllProducts,
   getOneProduct,
