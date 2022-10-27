@@ -203,7 +203,6 @@ const createOrderElement = function (order) {
           <input type="text" class="order-time-textbox" placeholder="Please enter a time."><br>
           <input type="submit" class="accept-order-btn" value="Accept order">
           </form>
-          <button name="accept-order" type="button">Accept Order</button>
           </div>
           </div>
           </div>
