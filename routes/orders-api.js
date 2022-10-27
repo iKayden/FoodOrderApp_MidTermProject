@@ -6,7 +6,6 @@ const twilio = require('../public/scripts/users');
 module.exports = router;
 
 router.get('/:id', (req, res) => {
-  console.log('req.params:id', req.params.id);
   userQueries
     .getOrderById(req.params.id)
     .then((orderDetails) => {
@@ -31,6 +30,8 @@ router.post('/:id', (req, res) => {
 // POST request for orders
 router.post('/', (req, res) => {
   const body = req.body;
+  const user_id = req.cookies.user_id;
+  // console.log("LOOKING FOR COOKIE", user_id);
   const ids = body.cart_items.map((item) => item.product_id).join(',');
   userQueries.getProductsByIds(ids).then((data) => {
     let totalCost = 0;
