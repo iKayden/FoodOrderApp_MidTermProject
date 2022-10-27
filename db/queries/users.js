@@ -66,17 +66,19 @@ const getOrderById = (id) => {
 
 //change order status
 const changeStatus = function (id, body) {
-  let status = '';
+  let query = '';
   if (body.time) {
-    status = 'CONFIRMED';
+    query = `UPDATE orders
+    SET status = 'CONFIRMED',
+    ready_at=NOW() + interval '20' minute
+    WHERE id=${id} RETURNING *;`;
   }
   if (body.status) {
-    status = 'FINISHED';
+    query = `UPDATE orders
+    SET status = 'FINISHED'
+    WHERE id=${id} RETURNING *;`;
   }
-  const changeStatus = `UPDATE orders
-  SET status = '${status}'
-  WHERE id=${id} RETURNING *;`;
-  return db.query(changeStatus).then((data) => {
+  return db.query(query).then((data) => {
     console.log('data.row', data.rows[0]);
     return data.rows[0];
   });
