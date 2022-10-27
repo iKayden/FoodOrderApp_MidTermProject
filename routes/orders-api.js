@@ -5,23 +5,23 @@ const twilio = require('../public/scripts/users');
 
 module.exports = router;
 
-router.get('/:id', (req, res) => { // ask mentor about :id
-  userQueries.getOrderDetails(req.params.id) //Changed the function a bit
-    .then(orderDetails => {
+router.get('/:id', (req, res) => {
+  // ask mentor about :id
+  userQueries
+    .getOrderDetails(req.params.id) //Changed the function a bit
+    .then((orderDetails) => {
       res.json({ orderDetails });
     })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
     });
 });
 
 router.post('/:id', (req, res) => {
-  console.log("CHECK POST ID ");
+  console.log('CHECK POST ID ');
   // res.redirect('/');
   res.sendStatus(200);
-})
+});
 
 // POST request for orders
 router.post('/', (req, res) => {
