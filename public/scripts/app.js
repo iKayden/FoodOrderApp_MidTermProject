@@ -221,22 +221,11 @@ const renderOrders = function (orders) {
 
 const renderOneOrder = function (order) {
   $products.empty();
-  console.log("ORDER FOR USER-->", order);
-
-  const date = "2022-10-27T21:45:34.749Z";
-
-  const minutesToAdd = 10;
-  const currentDate = new Date();
-  console.log("currentDate", currentDate)
-
-  var futureDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
-  const date1 = `${futureDate.toLocaleTimeString()}`;
-
   const $order = $(`
   <article>
     <div class="newOrder" key=${order.id}> Order ID: ${order.id} </div>
       <div class="order">
-        <div class=order-time> Your order will be ready at ${date1}.</div>
+        <div class=order-time> Your order will be ready at ${order.time}.</div>
         <div class="order-info"> Status of your order: <b>${order.status}</b></div>
         <div>Thank you for your purchase!</div>
       </div>
@@ -246,7 +235,6 @@ const renderOneOrder = function (order) {
 };
 
 const createOrderElement = function (order) {
-  // console.log("ORDER----->", order);
   const $order = $(`
   <article>
   <div class="newOrder">You received a new order!</div>
