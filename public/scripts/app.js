@@ -12,13 +12,9 @@ const order = {
 $(document).ready(function () {
   if (document.cookie.includes("user_id=admin")) {
     loadOrders();
-  }
-
-  else if (document.cookie.includes("order_id")) {
+  } else if (document.cookie.includes("order_id")) {
     loadOneOrder();
-  }
-
-  else {
+  } else {
     loadProducts();
   }
 
@@ -254,13 +250,26 @@ const createOrderElement = function (order) {
           <input type="submit" class="accept-order-btn" value="Accept order">
           </form>
           </div>
-          </div>
-          </div>
     </article>`);
   return $order;
 };
 
-const onAcceptOrder = (e) => {
+const onAcceptOrder = function (e) {
   e.preventDefault(); // preventing browser from reloading
-  $(".order-time-textbox").click();
+  const cookieId = getCookie("order_id");
+  const order = { time: $(".order-time-textbox").val() };
+
+  $.post(`/api/orders/${cookieId}`, order).then((data) => {
+    // $(".order-time-textbox").click();
+  });
+
+  $(this).removeClass("accept-order-btn").addClass("order-ready");
+  $(".order-ready").on("click", function (e) {
+    e.preventDefault();
+    const output = { status: "FINISHED" };
+
+    $.post(`/api/orders/${cookieId}`, output).then((data) => {
+      // $(".order-time-textbox").click();
+    });
+  });
 };
