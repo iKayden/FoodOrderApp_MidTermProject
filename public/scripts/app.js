@@ -9,7 +9,7 @@ const order = {
 };
 
 //  ******************* START ********************
-$(document).ready(function () {
+$(document).ready(function() {
   if (document.cookie.includes("user_id=admin")) {
     loadOrders();
   } else if (document.cookie.includes("order_id")) {
@@ -25,6 +25,7 @@ $(document).ready(function () {
   $(document).on("click", ".minus", onMinusClick);
   $(document).on("click", ".accept-order-btn", onAcceptOrder);
   $(document).on("click", "#close-order-btn", loadOneOrder);
+  $(document).on("click", ".order-ready", orderIsReady);
 });
 //************End of DOCUMENT READY  **************
 
@@ -257,19 +258,19 @@ const renderOneOrder = function(order) {
   // return $order;
 };
 
-const createOrderElement = function (order) {
+const createOrderElement = function(order) {
   const $order = $(`
-  <article>
+  <article class="new-order-article">
   <div class="newOrder">You received a new order!</div>
   <div class="order">
         <div class="orderInfo"></div>
-        <img src="../images/logo.png" alt="photo_url">
-        <div class="orderID">Order ID: ${order.id}</div>
+        <img class="admin-order-img" src="../images/logo.png" alt="photo_url">
+        <div class="orderID">Order ID: <b>${order.id}</b></div>
         <div class="order-name">${order.products[0].quantity}x of ${order.products[0].name}</div>
           <form action="/api/orders/${order.id}" method="POST" class="admin-order-form">
           <div><label for="order-question">How long will this take? </label><br>
-          <input type="text" class="order-time-textbox d-block" placeholder="Please enter a time.">
-          <input key=${order.id} type="submit" class="accept-order-btn" value="Accept order">
+          <input type="text" class="order-time-textbox" placeholder="Please enter a time">
+          <input key=${order.id} type="submit" class="accept-order-btn" value="Accept Order">
           </form>
           </div>
     </article>`);
@@ -294,4 +295,9 @@ const onAcceptOrder = function(e) {
       // $(".order-time-textbox").click();
     });
   });
+};
+
+const orderIsReady = function() {
+  const $parent = $(this).parent().parent().parent().parent().hide();
+  console.log("PARENT OF READY BTN", $parent);
 };

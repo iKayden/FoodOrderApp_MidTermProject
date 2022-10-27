@@ -2,11 +2,16 @@
   padding: 24px;
 }
 
+.order-time-textbox {
+  display: block;
+}
 .orderInfo {
   display: flex;
   flex-direction: row;
 }
-
+article .new-order-article {
+  padding: 10px 0px 15px 15px;
+}
 .newOrder {
   display: flex;
   justify-content: center;
