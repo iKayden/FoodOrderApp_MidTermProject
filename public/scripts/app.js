@@ -9,10 +9,11 @@ const order = {
 };
 
 //  ******************* START ********************
-$(document).ready(function () {
+$(document).ready(function() {
   if (document.cookie.includes('user_id=admin')) {
     loadOrders();
   } else if (document.cookie.includes('order_id')) {
+    console.log("DOCUMENT COOKIE", document.cookie);
     loadOneOrder();
   } else {
     loadProducts();
@@ -34,7 +35,7 @@ const $products = $('.product-container');
 const $items = $('.modal-body');
 const $orders = $('.orders-container');
 
-const loadProducts = function () {
+const loadProducts = function() {
   $.get('/api/products')
     .then((data) => {
       if (data.type === 'orders') {
@@ -51,23 +52,40 @@ const loadProducts = function () {
     });
 };
 
-const onPlusClick = function () {
+const onPlusClick = function() {
   //find product id
   const $id = $(this).closest('article').attr('key');
+  const $totalItemPrice = $(this).closest('article').children(":first");
   //change quantity
   order.beverages[$id]++;
+  $.get(`/api/products/${$id}`, function(data) {
+    // data = JSON.parse(data);
+    const price = data.info.price;
+    $totalItemPrice.text(`$${price * order.beverages[$id] / 100}`);
+    const totalCost = calculateTotalCost(order.beverages, productsResponse);
+    $(".total-cost").text(`Total Cost: $${totalCost}`);
+  });
+
   //update quantity in HTML
   $(this).next().text(order.beverages[$id]);
 };
 
-const onMinusClick = function () {
+const onMinusClick = function() {
   const $id = $(this).closest('article').attr('key');
+  const $totalItemPrice = $(this).closest('article').children(":first");
   //check if quantity is 0.
   order.beverages[$id] === 0 ? 0 : order.beverages[$id]--;
+  $.get(`/api/products/${$id}`, function(data) {
+    // data = JSON.parse(data);
+    const price = data.info.price;
+    $totalItemPrice.text(`$${price * order.beverages[$id] / 100}`);
+    const totalCost = calculateTotalCost(order.beverages, productsResponse);
+    $(".total-cost").text(`Total Cost: $${totalCost}`);
+  });
   $(this).prev().text(order.beverages[$id]);
 };
 
-const onPriceClick = function () {
+const onPriceClick = function() {
   const $id = $(this).attr('key');
   order.beverages = {
     ...order.beverages,
@@ -76,7 +94,7 @@ const onPriceClick = function () {
   };
 };
 
-const calculateTotalCost = function (order, productInfo) {
+const calculateTotalCost = function(order, productInfo) {
   let result = 0;
   for (item in order) {
     const cost = productInfo[item].price * order[item];
@@ -89,28 +107,35 @@ const calculateTotalCost = function (order, productInfo) {
   return result;
 };
 
-const onOrderClick = function () {
-  const cart_items = Object.keys(order.beverages).map((key) => ({
-    product_id: key,
-    quantity: order.beverages[key],
-  }));
-  order.cart_items = cart_items;
-  $.post('api/orders', order).then((result) => {
-    document.cookie = `order_id=${result.order.id}`;
-    const $successMessage = $(`<p>${result.message}</p>`);
-    $items.empty();
-    $('.placeOrder').hide();
-    $items.append($successMessage);
-    order.beverages = {};
-  });
+const onOrderClick = function() {
+  $items.css("display", "none");
+  $(".lds-dual-ring").css("display", "inline-block");
+  setTimeout(function() {
+    const cart_items = Object.keys(order.beverages).map((key) => ({
+      product_id: key,
+      quantity: order.beverages[key],
+    }));
+    order.cart_items = cart_items;
+    $.post('api/orders', order)
+      .then((result) => {
+        $items.css("display", "block");
+        $(".lds-dual-ring").css("display", "none");
+        document.cookie = `order_id=${result.order.id}`;
+        const $successMessage = $(`<p>${result.message}</p>`);
+        $items.empty();
+        $('.placeOrder').hide();
+        $items.append($successMessage);
+        order.beverages = {};
+      });
+  }, 1000);
+
 };
 
-const createOrderItem = function (itemId, quantity) {
+const createOrderItem = function(itemId, quantity) {
   const $item = $(`
     <article key=${itemId}>
-    <div class="item-price" key=${itemId}>$${
-    (productsResponse[itemId].price * quantity) / 100
-  }</div>
+    <div class="item-price" key=${itemId}>$${(productsResponse[itemId].price * quantity) / 100
+    }</div>
     <div class="item-info">
     <div class="product-name">${productsResponse[itemId].name}</div>
     <div class="quantity">Quantity: <button class="plus">+</button><span class="quantity-value">${quantity}</span><button class="minus">-</button></div>
@@ -119,12 +144,11 @@ const createOrderItem = function (itemId, quantity) {
   return $item;
 };
 
-const createProductElement = function (product) {
+const createProductElement = function(product) {
   const $product = $(`
     <article>
-    <div class="price" key=${
-      product.id
-    }>Add to <i class="fa-solid fa-cart-plus"></i>
+    <div class="price" key=${product.id
+    }><button class="btn btn-warning">Add to Cart</button>
     <span class="price-tag" >
     <i class="fa-solid fa-dollar-sign"></i>${product.price / 100}
     </span>
@@ -140,14 +164,14 @@ const createProductElement = function (product) {
   return $product;
 };
 
-const renderProducts = function (products) {
+const renderProducts = function(products) {
   products.forEach((product) => {
     const $product = createProductElement(product);
     $products.append($product);
   });
 };
 
-const renderOrderItems = function (items) {
+const renderOrderItems = function(items) {
   $items.empty();
   for (item in items) {
     //item is the id of item, items[item] is the quantity of item.
@@ -156,12 +180,12 @@ const renderOrderItems = function (items) {
   }
 };
 
-const onCartClick = function () {
+const onCartClick = function() {
   renderOrderItems(order.beverages);
   $('.placeOrder').show();
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
   const $totalCost = $(`
-    <p class=total-cost>Total: $${totalCost}<p>
+    <p class=total-cost>Total Cost: $${totalCost}<p>
     `);
 
   //Save total cost to the order so that it can be sent to backend;
@@ -169,7 +193,7 @@ const onCartClick = function () {
   $items.append($totalCost);
 };
 
-const loadOrders = function () {
+const loadOrders = function() {
   $.get('/api/orders')
     .then((orders) => {
       renderOrders(orders);
@@ -195,7 +219,7 @@ function getCookie(cname) {
   return '';
 }
 
-const loadOneOrder = function () {
+const loadOneOrder = function() {
   const cookieId = getCookie('order_id');
 
   $.get(`/api/orders/${cookieId}`)
@@ -209,17 +233,17 @@ const loadOneOrder = function () {
     });
 };
 
-const renderOrders = function (orders) {
+const renderOrders = function(orders) {
   orders.forEach((order) => {
     const $order = createOrderElement(order);
-    $order.find('.accept-order-btn').click(function () {
+    $order.find('.accept-order-btn').click(function() {
       $(this).val('Order Ready').siblings().hide();
     });
     $orders.append($order);
   });
 };
 
-const renderOneOrder = function (order) {
+const renderOneOrder = function(order) {
   $products.empty();
   const $order = $(`
   <article>
@@ -235,7 +259,7 @@ const renderOneOrder = function (order) {
   // return $order;
 };
 
-const createOrderElement = function (order) {
+const createOrderElement = function(order) {
   // <!-- <div class="order-name">${cart_items.quantity}x of ${products.name}</div> --!>
   const $order = $(`
   <article>
@@ -254,7 +278,7 @@ const createOrderElement = function (order) {
   return $order;
 };
 
-const onAcceptOrder = function (e) {
+const onAcceptOrder = function(e) {
   e.preventDefault(); // preventing browser from reloading
   const cookieId = $(this).attr('key');
   const order = { time: $(this).prev().val() };
@@ -264,7 +288,7 @@ const onAcceptOrder = function (e) {
   });
 
   $(this).removeClass('accept-order-btn').addClass('order-ready');
-  $('.order-ready').on('click', function (e) {
+  $('.order-ready').on('click', function(e) {
     e.preventDefault();
     const output = { status: 'FINISHED' };
 

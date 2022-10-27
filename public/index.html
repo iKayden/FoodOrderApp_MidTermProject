@@ -37,7 +37,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bungee&family=Josefin+Sans:wght@500;600&family=Source+Sans+Pro:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Josefin+Sans:wght@400;600&family=Source+Sans+Pro:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
@@ -53,9 +53,13 @@
 
   <body>
     <nav>
-      <div id="webName"><img class="logo" src="/images/logo.png" alt="" /></div>
-      <div id="login">Login</div>
-      <div id="register">Register</div>
+      <div id="webName">
+        <a href="http://localhost:8080/"
+          ><img class="logo" src="/images/logo.png" alt=""
+        /></a>
+      </div>
+      <div id="login" class="btn btn-light">Login</div>
+      <div id="register" class="btn btn-light">Register</div>
     </nav>
 
     <main>
@@ -153,6 +157,7 @@
                 aria-label="Close"
               ></button>
             </div>
+            <div class="lds-dual-ring"></div>
             <div class="modal-body"></div>
             <div class="modal-footer">
               <button
@@ -180,4 +185,12 @@
       crossorigin="anonymous"
     ></script>
   </body>
+  <footer>
+    <span>
+      <i class="fa-regular fa-copyright"></i> Made by
+      <a href="https://github.com/lyjeileen">Eileen</a>,
+      <a href="https://github.com/rosanna-z">Rosanna</a> and
+      <a href="https://github.com/iKayden">Kayden</a>. 2022 for Lighthouse Labs.
+    </span>
+  </footer>
 </html>
