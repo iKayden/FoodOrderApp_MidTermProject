@@ -1,7 +1,7 @@
 const order = {
   customer: {
-    name: 'John Smith',
-    phone: '1236667777',
+    name: "John Smith",
+    phone: "1236667777",
   },
   total_cost: 0,
   cart_items: [],
@@ -9,36 +9,35 @@ const order = {
 };
 
 //  ******************* START ********************
-$(document).ready(function() {
-  if (document.cookie.includes('user_id=admin')) {
+$(document).ready(function () {
+  if (document.cookie.includes("user_id=admin")) {
     loadOrders();
-  } else if (document.cookie.includes('order_id')) {
-    console.log("DOCUMENT COOKIE", document.cookie);
+  } else if (document.cookie.includes("order_id")) {
     loadOneOrder();
   } else {
     loadProducts();
   }
 
-  $(document).on('click', '.price', onPriceClick);
-  $(document).on('click', '.placeOrder', onOrderClick);
-  $(document).on('click', '#cartButton', onCartClick);
-  $(document).on('click', '.plus', onPlusClick);
-  $(document).on('click', '.minus', onMinusClick);
-  $(document).on('click', '.accept-order-btn', onAcceptOrder);
-  $(document).on('click', '#close-order-btn', loadOneOrder);
+  $(document).on("click", ".price", onPriceClick);
+  $(document).on("click", ".placeOrder", onOrderClick);
+  $(document).on("click", "#cartButton", onCartClick);
+  $(document).on("click", ".plus", onPlusClick);
+  $(document).on("click", ".minus", onMinusClick);
+  $(document).on("click", ".accept-order-btn", onAcceptOrder);
+  $(document).on("click", "#close-order-btn", loadOneOrder);
 });
 //************End of DOCUMENT READY  **************
 
 let productsResponse = {};
 
-const $products = $('.product-container');
-const $items = $('.modal-body');
-const $orders = $('.orders-container');
+const $products = $(".product-container");
+const $items = $(".modal-body");
+const $orders = $(".orders-container");
 
 const loadProducts = function() {
   $.get('/api/products')
     .then((data) => {
-      if (data.type === 'orders') {
+      if (data.type === "orders") {
         renderOrders(data.orders);
       } else {
         data.info.forEach((datum) => {
@@ -48,7 +47,7 @@ const loadProducts = function() {
       }
     })
     .catch((error) => {
-      console.log('error', error.message);
+      console.log("error", error.message);
     });
 };
 
@@ -182,7 +181,7 @@ const renderOrderItems = function(items) {
 
 const onCartClick = function() {
   renderOrderItems(order.beverages);
-  $('.placeOrder').show();
+  $(".placeOrder").show();
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
   const $totalCost = $(`
     <p class=total-cost>Total Cost: $${totalCost}<p>
@@ -199,24 +198,24 @@ const loadOrders = function() {
       renderOrders(orders);
     })
     .catch((error) => {
-      console.log('error', error.message);
+      console.log("error", error.message);
     });
 };
 
 function getCookie(cname) {
-  let name = cname + '=';
+  let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
+  let ca = decodedCookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == ' ') {
+    while (c.charAt(0) == " ") {
       c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
       return c.substring(name.length, c.length);
     }
   }
-  return '';
+  return "";
 }
 
 const loadOneOrder = function() {
@@ -224,12 +223,12 @@ const loadOneOrder = function() {
 
   $.get(`/api/orders/${cookieId}`)
     .then((order) => {
-      $('#login').hide();
-      $('#register').hide();
+      $("#login").hide();
+      $("#register").hide();
       renderOneOrder(order);
     })
     .catch((err) => {
-      console.log('error: loadOneOrder', err.message);
+      console.log("error: loadOneOrder", err.message);
     });
 };
 
@@ -247,20 +246,18 @@ const renderOneOrder = function(order) {
   $products.empty();
   const $order = $(`
   <article>
-    <div class="newOrder" key=${order.id}>Your order ID is ${order.id}</div>
+    <div class="newOrder" key=${order.id}> Order ID: ${order.id} </div>
       <div class="order">
-        <div class="orderInfo">The status of your order is: <b>${order.status}</b>
-          </div>
-        </div>
+        <div class=order-time> Your order will be ready at ${order.time}.</div>
+        <div class="order-info"> Status of your order: <b>${order.status}</b></div>
+        <div>Thank you for your purchase!</div>
       </div>
-    </div>
   </article>`);
   $products.append($order);
   // return $order;
 };
 
-const createOrderElement = function(order) {
-  // <!-- <div class="order-name">${cart_items.quantity}x of ${products.name}</div> --!>
+const createOrderElement = function (order) {
   const $order = $(`
   <article>
   <div class="newOrder">You received a new order!</div>
@@ -268,6 +265,7 @@ const createOrderElement = function(order) {
         <div class="orderInfo"></div>
         <img src="../images/logo.png" alt="photo_url">
         <div class="orderID">Order ID: ${order.id}</div>
+        <div class="order-name">${order.products[0].quantity}x of ${order.products[0].name}</div>
           <form action="/api/orders/${order.id}" method="POST" class="admin-order-form">
           <div><label for="order-question">How long will this take? </label><br>
           <input type="text" class="order-time-textbox d-block" placeholder="Please enter a time.">
@@ -280,9 +278,9 @@ const createOrderElement = function(order) {
 
 const onAcceptOrder = function(e) {
   e.preventDefault(); // preventing browser from reloading
-  const cookieId = $(this).attr('key');
+  const cookieId = $(this).attr("key");
   const order = { time: $(this).prev().val() };
-  console.log('order time:', $(this).prev().val());
+  console.log("order time:", $(this).prev().val());
   $.post(`/api/orders/${cookieId}`, order).then((data) => {
     // $(".order-time-textbox").click();
   });
@@ -290,7 +288,7 @@ const onAcceptOrder = function(e) {
   $(this).removeClass('accept-order-btn').addClass('order-ready');
   $('.order-ready').on('click', function(e) {
     e.preventDefault();
-    const output = { status: 'FINISHED' };
+    const output = { status: "FINISHED" };
 
     $.post(`/api/orders/${cookieId}`, output).then((data) => {
       // $(".order-time-textbox").click();
