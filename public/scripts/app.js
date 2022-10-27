@@ -1,7 +1,7 @@
 const order = {
   customer: {
-    name: 'John Smith',
-    phone: '1236667777',
+    name: "John Smith",
+    phone: "1236667777",
   },
   total_cost: 0,
   cart_items: [],
@@ -10,34 +10,34 @@ const order = {
 
 //  ******************* START ********************
 $(document).ready(function () {
-  if (document.cookie.includes('user_id=admin')) {
+  if (document.cookie.includes("user_id=admin")) {
     loadOrders();
-  } else if (document.cookie.includes('order_id')) {
+  } else if (document.cookie.includes("order_id")) {
     loadOneOrder();
   } else {
     loadProducts();
   }
 
-  $(document).on('click', '.price', onPriceClick);
-  $(document).on('click', '.placeOrder', onOrderClick);
-  $(document).on('click', '#cartButton', onCartClick);
-  $(document).on('click', '.plus', onPlusClick);
-  $(document).on('click', '.minus', onMinusClick);
-  $(document).on('click', '.accept-order-btn', onAcceptOrder);
-  $(document).on('click', '#close-order-btn', loadOneOrder);
+  $(document).on("click", ".price", onPriceClick);
+  $(document).on("click", ".placeOrder", onOrderClick);
+  $(document).on("click", "#cartButton", onCartClick);
+  $(document).on("click", ".plus", onPlusClick);
+  $(document).on("click", ".minus", onMinusClick);
+  $(document).on("click", ".accept-order-btn", onAcceptOrder);
+  $(document).on("click", "#close-order-btn", loadOneOrder);
 });
 //************End of DOCUMENT READY  **************
 
 let productsResponse = {};
 
-const $products = $('.product-container');
-const $items = $('.modal-body');
-const $orders = $('.orders-container');
+const $products = $(".product-container");
+const $items = $(".modal-body");
+const $orders = $(".orders-container");
 
 const loadProducts = function () {
-  $.get('/api/products')
+  $.get("/api/products")
     .then((data) => {
-      if (data.type === 'orders') {
+      if (data.type === "orders") {
         renderOrders(data.orders);
       } else {
         data.info.forEach((datum) => {
@@ -47,13 +47,13 @@ const loadProducts = function () {
       }
     })
     .catch((error) => {
-      console.log('error', error.message);
+      console.log("error", error.message);
     });
 };
 
 const onPlusClick = function () {
   //find product id
-  const $id = $(this).closest('article').attr('key');
+  const $id = $(this).closest("article").attr("key");
   //change quantity
   order.beverages[$id]++;
   //update quantity in HTML
@@ -61,14 +61,14 @@ const onPlusClick = function () {
 };
 
 const onMinusClick = function () {
-  const $id = $(this).closest('article').attr('key');
+  const $id = $(this).closest("article").attr("key");
   //check if quantity is 0.
   order.beverages[$id] === 0 ? 0 : order.beverages[$id]--;
   $(this).prev().text(order.beverages[$id]);
 };
 
 const onPriceClick = function () {
-  const $id = $(this).attr('key');
+  const $id = $(this).attr("key");
   order.beverages = {
     ...order.beverages,
     //if quantity is 0, quantity will be 1. If not, quantity will be increased by 1.
@@ -95,11 +95,11 @@ const onOrderClick = function () {
     quantity: order.beverages[key],
   }));
   order.cart_items = cart_items;
-  $.post('api/orders', order).then((result) => {
+  $.post("api/orders", order).then((result) => {
     document.cookie = `order_id=${result.order.id}`;
     const $successMessage = $(`<p>${result.message}</p>`);
     $items.empty();
-    $('.placeOrder').hide();
+    $(".placeOrder").hide();
     $items.append($successMessage);
     order.beverages = {};
   });
@@ -125,7 +125,7 @@ const createProductElement = function (product) {
     <div class="price" key=${
       product.id
     }>Add to <i class="fa-solid fa-cart-plus"></i>
-    <span class="price-tag" >
+    <span class="price-tag">
     <i class="fa-solid fa-dollar-sign"></i>${product.price / 100}
     </span>
   </div>
@@ -158,7 +158,7 @@ const renderOrderItems = function (items) {
 
 const onCartClick = function () {
   renderOrderItems(order.beverages);
-  $('.placeOrder').show();
+  $(".placeOrder").show();
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
   const $totalCost = $(`
     <p class=total-cost>Total: $${totalCost}<p>
@@ -170,50 +170,50 @@ const onCartClick = function () {
 };
 
 const loadOrders = function () {
-  $.get('/api/orders')
+  $.get("/api/orders")
     .then((orders) => {
       renderOrders(orders);
     })
     .catch((error) => {
-      console.log('error', error.message);
+      console.log("error", error.message);
     });
 };
 
 function getCookie(cname) {
-  let name = cname + '=';
+  let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
+  let ca = decodedCookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == ' ') {
+    while (c.charAt(0) == " ") {
       c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
       return c.substring(name.length, c.length);
     }
   }
-  return '';
+  return "";
 }
 
 const loadOneOrder = function () {
-  const cookieId = getCookie('order_id');
+  const cookieId = getCookie("order_id");
 
   $.get(`/api/orders/${cookieId}`)
     .then((order) => {
-      $('#login').hide();
-      $('#register').hide();
+      $("#login").hide();
+      $("#register").hide();
       renderOneOrder(order);
     })
     .catch((err) => {
-      console.log('error: loadOneOrder', err.message);
+      console.log("error: loadOneOrder", err.message);
     });
 };
 
 const renderOrders = function (orders) {
   orders.forEach((order) => {
     const $order = createOrderElement(order);
-    $order.find('.accept-order-btn').click(function () {
-      $(this).val('Order Ready').siblings().hide();
+    $order.find(".accept-order-btn").click(function () {
+      $(this).val("Order Ready").siblings().hide();
     });
     $orders.append($order);
   });
@@ -221,22 +221,32 @@ const renderOrders = function (orders) {
 
 const renderOneOrder = function (order) {
   $products.empty();
+  console.log("ORDER FOR USER-->", order);
+
+  const date = "2022-10-27T21:45:34.749Z";
+
+  const minutesToAdd = 10;
+  const currentDate = new Date();
+  console.log("currentDate", currentDate)
+
+  var futureDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
+  const date1 = `${futureDate.toLocaleTimeString()}`;
+
   const $order = $(`
   <article>
-    <div class="newOrder" key=${order.id}>Your order ID is ${order.id}</div>
+    <div class="newOrder" key=${order.id}> Order ID: ${order.id} </div>
       <div class="order">
-        <div class="orderInfo">The status of your order is: <b>${order.status}</b>
-          </div>
-        </div>
+        <div class=order-time> Your order will be ready at ${date1}.</div>
+        <div class="order-info"> Status of your order: <b>${order.status}</b></div>
+        <div>Thank you for your purchase!</div>
       </div>
-    </div>
   </article>`);
   $products.append($order);
   // return $order;
 };
 
 const createOrderElement = function (order) {
-console.log("ORDER----->", order);
+  // console.log("ORDER----->", order);
   const $order = $(`
   <article>
   <div class="newOrder">You received a new order!</div>
@@ -257,17 +267,17 @@ console.log("ORDER----->", order);
 
 const onAcceptOrder = function (e) {
   e.preventDefault(); // preventing browser from reloading
-  const cookieId = $(this).attr('key');
+  const cookieId = $(this).attr("key");
   const order = { time: $(this).prev().val() };
-  console.log('order time:', $(this).prev().val());
+  console.log("order time:", $(this).prev().val());
   $.post(`/api/orders/${cookieId}`, order).then((data) => {
     // $(".order-time-textbox").click();
   });
 
-  $(this).removeClass('accept-order-btn').addClass('order-ready');
-  $('.order-ready').on('click', function (e) {
+  $(this).removeClass("accept-order-btn").addClass("order-ready");
+  $(".order-ready").on("click", function (e) {
     e.preventDefault();
-    const output = { status: 'FINISHED' };
+    const output = { status: "FINISHED" };
 
     $.post(`/api/orders/${cookieId}`, output).then((data) => {
       // $(".order-time-textbox").click();

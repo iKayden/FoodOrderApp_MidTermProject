@@ -9,5 +9,18 @@
 
 .newOrder {
   display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
 
+.order {
+  padding: 10px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.accept-order.btn {
+  background-color: #f3b4e3;
+  border-radius: 8px;
 }
