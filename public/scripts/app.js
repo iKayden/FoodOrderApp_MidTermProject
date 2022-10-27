@@ -245,11 +245,15 @@ const renderOrders = function(orders) {
 
 const renderOneOrder = function(order) {
   $products.empty();
+  if (!order.time) {
+    order.time = "TO BE CONFIRMED"
+  }
+
   const $order = $(`
   <article>
-    <div class="newOrder" key=${order.id}> Order ID: ${order.id} </div>
+    <div class="newOrder" key=${order.id}> Order ID: ${order.id}</div>
       <div class="order">
-        <div class=order-time> Your order will be ready at ${order.time}.</div>
+        <div class=order-time> Your order will be ready at: <b> ${order.time}</b>.</div>
         <div class="order-info"> Status of your order: <b>${order.status}</b></div>
         <div>Thank you for your purchase!</div>
       </div>
