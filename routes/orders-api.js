@@ -6,7 +6,6 @@ const twilio = require('../public/scripts/users');
 module.exports = router;
 
 router.get('/:id', (req, res) => {
-  console.log('req.params:id', req.params.id);
   userQueries
     .getOrderById(req.params.id)
     .then((orderDetails) => {
@@ -18,7 +17,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/:id', (req, res) => {
-  console.log('CHECK POST ID ');
+  // console.log('CHECK POST ID ');
   // res.redirect('/');
   res.sendStatus(200);
 });
