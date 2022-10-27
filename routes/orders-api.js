@@ -17,9 +17,14 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/:id', (req, res) => {
-  // console.log('CHECK POST ID ');
-  // res.redirect('/');
-  res.sendStatus(200);
+  userQueries
+    .changeStatus(req.params.id, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
 });
 
 // POST request for orders
@@ -42,12 +47,14 @@ router.post('/', (req, res) => {
       .then((data) => {
         // msg to the customer
         twilio.sendText(
-          `Hey, we have your order! Order ID is => ${data.id
+          `Hey, we have your order! Order ID is => ${
+            data.id
           }, Your total cost is $${data.total_cost / 100}.`
         );
         // msg to the owner
         twilio.sendText(
-          `Hey, we have a new order! Order ID is => ${data.id
+          `Hey, we have a new order! Order ID is => ${
+            data.id
           }, The total cost is $${data.total_cost / 100}.`
         );
         res.json({ message: 'Success!', order: data });
