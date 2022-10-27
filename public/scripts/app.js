@@ -203,9 +203,9 @@ const renderOneOrder = function(order) {
   $products.empty();
   const $order = $(`
   <article>
-    <div class="newOrder" key=${order.orderDetails.id}>Your order ID is ${order.orderDetails.id}</div>
+    <div class="newOrder" key=${order.order.id}>Your order ID is ${order.order.id}</div>
       <div class="order">
-        <div class="orderInfo">The status of your order is: <b>${order.orderDetails.status}</b> 
+        <div class="orderInfo">The status of your order is: <b>${order.order.status}</b> 
           </div>
         </div>
       </div>

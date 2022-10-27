@@ -42,16 +42,16 @@ router.post('/', (req, res) => {
       .addOrder(body)
       .then((data) => {
         // msg to the customer
-        twilio.sendText(
-          `Hey, we have your order! Order ID is => ${data.id
-          }, Your total cost is $${data.total_cost / 100}.`
-        );
-        // msg to the owner
-        twilio.sendText(
-          `Hey, we have a new order! Order ID is => ${data.id
-          }, The total cost is $${data.total_cost / 100}.`
-        );
-        res.json({ message: 'Success!', order: data });
+        // twilio.sendText(
+        //   `Hey, we have your order! Order ID is => ${data.id
+        //   }, Your total cost is $${data.total_cost / 100}.`
+        // );
+        // // msg to the owner
+        // twilio.sendText(
+        //   `Hey, we have a new order! Order ID is => ${data.id
+        //   }, The total cost is $${data.total_cost / 100}.`
+        // );
+        // res.json({ message: 'Success!', order: data });
       })
       .catch((e) => {
         console.log(e);
