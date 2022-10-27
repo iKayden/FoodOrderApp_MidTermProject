@@ -1,10 +1,11 @@
 body {
   min-height: 100vh;
-  background: #FFF2CF;
+  background-color: #fff2cf;
+  background-image: url("https://www.transparenttextures.com/patterns/food.png");
 }
 
-main>img{
-  width:100%
+main > img {
+  width: 100%;
 }
 
 #cartButton {
@@ -23,16 +24,20 @@ main>img{
   width: 100%;
 }
 
-.header-for-main{
-  margin: 10px  0px 10px 25px;
+.header-for-main {
+  margin: 10px 0px 10px 25px;
   font-size: 30px;
 }
 
-.pink-style{
+.pink-style {
   margin: 5px;
   color: #dc419d;
 }
 
 .hide {
   display: none;
+}
+
+footer {
+  margin: 15px;
 }

@@ -66,25 +66,26 @@ const getOrderById = (id) => {
 
 //change order status
 const changeStatus = function (id, body) {
-  let status = '';
+  let query = '';
   if (body.time) {
-    status = 'CONFIRMED';
+    query = `UPDATE orders
+    SET status = 'CONFIRMED',
+    ready_at=NOW() + interval '${body.time}' minute
+    WHERE id=${id} RETURNING *;`;
   }
   if (body.status) {
-    status = 'FINISHED';
+    query = `UPDATE orders
+    SET status = 'FINISHED'
+    WHERE id=${id} RETURNING *;`;
   }
-  const changeStatus = `UPDATE orders
-  SET status = '${status}'
-  WHERE id=${id} RETURNING *;`;
-  return db.query(changeStatus).then((data) => {
+  return db.query(query).then((data) => {
     console.log('data.row', data.rows[0]);
     return data.rows[0];
   });
 };
 
 const getOrders = () => {
-  const getOrdersQuery =
-    'SELECT orders.id, orders.status, cart_items.quantity, cart_items.product_id, products.name FROM orders JOIN cart_items ON order_id=orders.id JOIN products ON products.id=product_id GROUP BY orders.id,cart_items.quantity,cart_items.product_id, products.name;';
+  const getOrdersQuery = `SELECT orders.id, orders.status, cart_items.quantity, cart_items.product_id, products.name FROM orders JOIN cart_items ON order_id=orders.id JOIN products ON products.id=product_id WHERE NOT status='FINISHED' GROUP BY orders.id,cart_items.quantity,cart_items.product_id, products.name;`;
   return db.query(getOrdersQuery).then((data) => {
     return data.rows;
   });
