@@ -13,6 +13,7 @@ $(document).ready(function() {
   if (document.cookie.includes('user_id=admin')) {
     loadOrders();
   } else if (document.cookie.includes('order_id')) {
+    console.log("DOCUMENT COOKIE", document.cookie);
     loadOneOrder();
   } else {
     loadProducts();
@@ -54,16 +55,33 @@ const loadProducts = function() {
 const onPlusClick = function() {
   //find product id
   const $id = $(this).closest('article').attr('key');
+  const $totalItemPrice = $(this).closest('article').children(":first");
   //change quantity
   order.beverages[$id]++;
+  $.get(`/api/products/${$id}`, function(data) {
+    // data = JSON.parse(data);
+    const price = data.info.price;
+    $totalItemPrice.text(`$${price * order.beverages[$id] / 100}`);
+    const totalCost = calculateTotalCost(order.beverages, productsResponse);
+    $(".total-cost").text(`Total Cost: $${totalCost}`);
+  });
+
   //update quantity in HTML
   $(this).next().text(order.beverages[$id]);
 };
 
 const onMinusClick = function() {
   const $id = $(this).closest('article').attr('key');
+  const $totalItemPrice = $(this).closest('article').children(":first");
   //check if quantity is 0.
   order.beverages[$id] === 0 ? 0 : order.beverages[$id]--;
+  $.get(`/api/products/${$id}`, function(data) {
+    // data = JSON.parse(data);
+    const price = data.info.price;
+    $totalItemPrice.text(`$${price * order.beverages[$id] / 100}`);
+    const totalCost = calculateTotalCost(order.beverages, productsResponse);
+    $(".total-cost").text(`Total Cost: $${totalCost}`);
+  });
   $(this).prev().text(order.beverages[$id]);
 };
 
@@ -90,19 +108,27 @@ const calculateTotalCost = function(order, productInfo) {
 };
 
 const onOrderClick = function() {
-  const cart_items = Object.keys(order.beverages).map((key) => ({
-    product_id: key,
-    quantity: order.beverages[key],
-  }));
-  order.cart_items = cart_items;
-  $.post('api/orders', order).then((result) => {
-    document.cookie = `order_id=${result.order.id}`;
-    const $successMessage = $(`<p>${result.message}</p>`);
-    $items.empty();
-    $('.placeOrder').hide();
-    $items.append($successMessage);
-    order.beverages = {};
-  });
+  $items.css("display", "none");
+  $(".lds-dual-ring").css("display", "inline-block");
+  setTimeout(function() {
+    const cart_items = Object.keys(order.beverages).map((key) => ({
+      product_id: key,
+      quantity: order.beverages[key],
+    }));
+    order.cart_items = cart_items;
+    $.post('api/orders', order)
+      .then((result) => {
+        $items.css("display", "block");
+        $(".lds-dual-ring").css("display", "none");
+        document.cookie = `order_id=${result.order.id}`;
+        const $successMessage = $(`<p>${result.message}</p>`);
+        $items.empty();
+        $('.placeOrder').hide();
+        $items.append($successMessage);
+        order.beverages = {};
+      });
+  }, 1000);
+
 };
 
 const createOrderItem = function(itemId, quantity) {
@@ -159,7 +185,7 @@ const onCartClick = function() {
   $('.placeOrder').show();
   const totalCost = calculateTotalCost(order.beverages, productsResponse);
   const $totalCost = $(`
-    <p class=total-cost>Total: $${totalCost}<p>
+    <p class=total-cost>Total Cost: $${totalCost}<p>
     `);
 
   //Save total cost to the order so that it can be sent to backend;
