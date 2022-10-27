@@ -11,6 +11,13 @@ const order = {
 //  ******************* START ********************
 $(document).ready(function() {
   loadAllData();
+  // if (checkCookie) { //document.cookie.includes("user_id=admin")
+  //   if (admin) {
+  //      loadOrders (define it ) //ajax api/orders
+  //   } else {
+  //     loadAllData (load Products)
+  //   }
+  // }
 
   $(document).on("click", ".price", onPriceClick);
   $(document).on("click", ".placeOrder", onOrderClick);
@@ -18,7 +25,6 @@ $(document).ready(function() {
   $(document).on("click", ".plus", onPlusClick);
   $(document).on("click", ".minus", onMinusClick);
   $(document).on("click", ".accept-order-btn", onAcceptOrder);
-
 });
 //************End of DOCUMENT READY  **************
 
@@ -115,10 +121,10 @@ const createOrderItem = function(itemId, quantity) {
 const createProductElement = function(product) {
   const $product = $(`
     <article>
-    <div class="price" key=${product.id}>Add to <i class="fa-solid fa-cart-plus"></i>
+    <div class="price" key=${product.id
+    }>Add to <i class="fa-solid fa-cart-plus"></i>
     <span class="price-tag" >
-    <i class="fa-solid fa-dollar-sign"></i>${product.price / 100
-    }
+    <i class="fa-solid fa-dollar-sign"></i>${product.price / 100}
     </span>
   </div>
     <div class="product">
@@ -161,11 +167,10 @@ const onCartClick = function() {
   $items.append($totalCost);
 };
 
-
 const loadOrders = function() {
   $.get("/api/orders")
     .then((orders) => {
-      console.log('orders---->', orders);
+      console.log("orders---->", orders);
       renderOrders(orders);
     })
     .catch((error) => {
@@ -176,9 +181,9 @@ const loadOrders = function() {
 const renderOrders = function(orders) {
   orders.forEach((order) => {
     const $order = createOrderElement(order);
-    $order.find(".accept-order-btn").click(function(){
+    $order.find(".accept-order-btn").click(function() {
       $(this).val("Order Ready").siblings().hide();
-      console.log("FROM RENDERS this ====>",this );
+      // console.log("FROM RENDERS this ====>",this );
     });
     $orders.append($order);
   });
@@ -208,5 +213,5 @@ const createOrderElement = function(order) {
 const onAcceptOrder = (e) => {
   console.log("E from jquery function", e);
   e.preventDefault(); // preventing browser from reloading
-  $('.order-time-textbox').click()
-}
+  $(".order-time-textbox").click();
+};
