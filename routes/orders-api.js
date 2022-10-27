@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
             data.id
           }, The total cost is $${data.total_cost / 100}.`
         );
-        res.json({ message: 'Success!', id: data.id });
+        res.json({ message: 'Success!', order: data });
       })
       .catch((e) => {
         console.log(e);

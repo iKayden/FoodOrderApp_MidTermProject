@@ -94,6 +94,7 @@ const onOrderClick = function () {
   }));
   order.cart_items = cart_items;
   $.post('api/orders', order).then((result) => {
+    document.cookie = `order_id=${result.order.id}`;
     const $successMessage = $(`<p>${result.message}</p>`);
     $items.empty();
     $('.placeOrder').hide();
