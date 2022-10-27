@@ -18,9 +18,14 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/:id', (req, res) => {
-  console.log('CHECK POST ID ');
-  // res.redirect('/');
-  res.sendStatus(200);
+  userQueries
+    .changeStatus(req.params.id, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
 });
 
 // POST request for orders
