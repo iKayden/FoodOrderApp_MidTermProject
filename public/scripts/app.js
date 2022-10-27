@@ -236,7 +236,7 @@ const renderOneOrder = function (order) {
 };
 
 const createOrderElement = function (order) {
-  // <!-- <div class="order-name">${cart_items.quantity}x of ${products.name}</div> --!>
+console.log("ORDER----->", order);
   const $order = $(`
   <article>
   <div class="newOrder" key=${order.id}>You received a new order!</div>
@@ -244,6 +244,7 @@ const createOrderElement = function (order) {
         <div class="orderInfo"></div>
         <img src="../images/logo.png" alt="photo_url">
         <div class="orderID">Order ID: ${order.id}</div>
+        <div class="order-name">${order.products[0].quantity}x of ${order.products[0].name}</div>
           <form action="/api/orders/${order.id}" method="POST" class="admin-order-form">
           <div><label for="order-question">How long will this take? </label><br>
           <input type="text" class="order-time-textbox" placeholder="Please enter a time."><br>
