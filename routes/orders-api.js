@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { format, utcToZonedTime } = require('date-fns-tz');
+
 const userQueries = require('../db/queries/users');
 const twilio = require('../public/scripts/users');
 
@@ -20,6 +22,19 @@ router.post('/:id', (req, res) => {
   userQueries
     .changeStatus(req.params.id, req.body)
     .then((data) => {
+      const time = format(
+        utcToZonedTime(data.ready_at, 'America/Los_Angeles'),
+        'p'
+      );
+      const status = data.status;
+      if (status === 'CONFIRMED') {
+        twilio.sendText(
+          `Hey, your order has been confirmed! Order ID is => ${data.id} and it will be ready at ${time}.`
+        );
+      } else {
+        twilio.sendText(`Hey, your order is ready! Order ID is =>${data.id}.`);
+      }
+      data.time = time;
       res.json(data);
     })
     .catch((err) => {
@@ -47,12 +62,14 @@ router.post('/', (req, res) => {
       .then((data) => {
         // msg to the customer
         twilio.sendText(
-          `Hey, we have your order! Order ID is => ${data.id
+          `Hey, we have your order! Order ID is => ${
+            data.id
           }, Your total cost is $${data.total_cost / 100}.`
         );
         // msg to the owner
         twilio.sendText(
-          `Hey, we have a new order! Order ID is => ${data.id
+          `Hey, we have a new order! Order ID is => ${
+            data.id
           }, The total cost is $${data.total_cost / 100}.`
         );
         res.json({ message: 'Success!', order: data });
