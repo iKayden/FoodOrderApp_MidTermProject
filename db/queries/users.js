@@ -70,7 +70,7 @@ const changeStatus = function (id, body) {
   if (body.time) {
     query = `UPDATE orders
     SET status = 'CONFIRMED',
-    ready_at=NOW() + interval '20' minute
+    ready_at=NOW() + interval '${body.time}' minute
     WHERE id=${id} RETURNING *;`;
   }
   if (body.status) {

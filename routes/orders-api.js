@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { format, utcToZonedTime } = require('date-fns-tz');
+
 const userQueries = require('../db/queries/users');
 const twilio = require('../public/scripts/users');
 
@@ -20,6 +22,18 @@ router.post('/:id', (req, res) => {
   userQueries
     .changeStatus(req.params.id, req.body)
     .then((data) => {
+      const time = format(
+        utcToZonedTime(data.ready_at, 'America/Los_Angeles'),
+        'p'
+      );
+      const status = data.status;
+      if (status === 'CONFIRMED') {
+        twilio.sendText(
+          `Hey, your order has been confirmed! Order ID is => ${data.id} and it will be ready at ${time}.`
+        );
+      } else {
+        twilio.sendText(`Hey, your order is ready! Order ID is =>${data.id}.`);
+      }
       res.json(data);
     })
     .catch((err) => {
