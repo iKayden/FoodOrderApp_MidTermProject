@@ -12,7 +12,9 @@ const order = {
 $(document).ready(function() {
   if (document.cookie.includes('user_id=admin')) {
     loadOrders();
+    console.log("INSIDE OF IF ");
   } else {
+    console.log("INSIDE OF ELSE ");
     loadProducts();
   }
 
@@ -22,6 +24,7 @@ $(document).ready(function() {
   $(document).on('click', '.plus', onPlusClick);
   $(document).on('click', '.minus', onMinusClick);
   $(document).on('click', '.accept-order-btn', onAcceptOrder);
+  $(document).on('click', '#close-order-btn', loadOneOrder);
 });
 //************End of DOCUMENT READY  **************
 
@@ -76,7 +79,6 @@ const onPriceClick = function() {
 const calculateTotalCost = function(order, productInfo) {
   let result = 0;
   for (item in order) {
-    console.log(item);
     const cost = productInfo[item].price * order[item];
     result += cost;
   }
@@ -167,11 +169,22 @@ const onCartClick = function() {
 const loadOrders = function() {
   $.get('/api/orders')
     .then((orders) => {
-      console.log("orders---->", orders);
       renderOrders(orders);
     })
     .catch((error) => {
       console.log('error', error.message);
+    });
+};
+
+const loadOneOrder = function() {
+  $.get('/api/orders/:id')
+    .then((order) => {
+      $("#login").hide();
+      $("#register").hide();
+      renderOneOrder(order);
+    })
+    .catch((err) => {
+      console.log('error:', err.message);
     });
 };
 
@@ -180,10 +193,25 @@ const renderOrders = function(orders) {
     const $order = createOrderElement(order);
     $order.find('.accept-order-btn').click(function() {
       $(this).val('Order Ready').siblings().hide();
-      console.log('FROM RENDERS this ====>', this);
     });
     $orders.append($order);
   });
+};
+
+const renderOneOrder = function(order) {
+  $products.empty();
+  const $order = $(`
+  <article>
+    <div class="newOrder" key=${order.orderDetails.id}>Your order ID is ${order.orderDetails.id}</div>
+      <div class="order">
+        <div class="orderInfo">The status of your order is: <b>${order.orderDetails.status}</b> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>`);
+  $products.append($order);
+  // return $order;
 };
 
 const createOrderElement = function(order) {
@@ -208,7 +236,6 @@ const createOrderElement = function(order) {
 };
 
 const onAcceptOrder = (e) => {
-  console.log('E from jquery function', e);
   e.preventDefault(); // preventing browser from reloading
   $('.order-time-textbox').click();
 };
