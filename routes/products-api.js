@@ -4,6 +4,9 @@ const userQueries = require('../db/queries/users');
 
 router.get('/', (req, res) => {
   //gives all the info front end needs
+  if (!req.cookies.user_id) {
+    res.cookie('user_id', 'customer'); // cookie set-up 
+  }
   userQueries
     .getAllProducts()
     .then((info) => {
