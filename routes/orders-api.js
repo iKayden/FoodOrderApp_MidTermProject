@@ -6,11 +6,11 @@ const twilio = require('../public/scripts/users');
 module.exports = router;
 
 router.get('/:id', (req, res) => {
-  // ask mentor about :id
+  console.log('req.params:id', req.params.id);
   userQueries
-    .getOrderDetails(req.params.id) //Changed the function a bit
+    .getOrderById(req.params.id)
     .then((orderDetails) => {
-      res.json({ orderDetails });
+      res.json(orderDetails);
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
