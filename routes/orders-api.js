@@ -11,11 +11,13 @@ router.get('/:id', (req, res) => {
   userQueries
     .getOrderById(req.params.id)
     .then((data) => {
-      const time = format(
-        utcToZonedTime(data.ready_at, 'America/Los_Angeles'),
-        'p'
-      );
-      data.time = time;
+      if (data.ready_at) {
+        const time = format(
+          utcToZonedTime(data.ready_at, 'America/Los_Angeles'),
+          'p'
+        );
+        data.time = time;
+      }
       res.json(data);
     })
     .catch((err) => {
