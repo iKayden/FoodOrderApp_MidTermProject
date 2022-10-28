@@ -18,7 +18,7 @@ A single page food ordering experience for a single restaurant. Hungry clients o
 
 ## Product Showcase
 
-- It has a responsive modern and charming design.!["Current photo shows design for smartphones as it was build with mobile-first approach"](public/images/1main.png)
+- It has a responsive, modern and charming design. It was made using the mobile-first approach. That's how it looks on a typical smartphone.!["Current photo shows design for smartphones as it was build with mobile-first approach"](public/images/1main.png)
 
 - Current photo shows the way it looks on a wider than phone screens.!["Current photo shows the way it looks on a wider than phone screens."](public/images/1wide_main.png)
 - It has an actively updating cart with a possibility to add or decrease quantity of beverages user wants.!["It has an actively updating cart with a possibility to add or decrease quantity of beverages user wants."](public/images/2cart.png)
