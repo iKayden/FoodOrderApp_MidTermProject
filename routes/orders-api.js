@@ -52,7 +52,6 @@ router.post('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const body = req.body;
   const user_id = req.cookies.user_id;
-  // console.log("LOOKING FOR COOKIE", user_id);
   const ids = body.cart_items.map((item) => item.product_id).join(',');
   userQueries.getProductsByIds(ids).then((data) => {
     let totalCost = 0;

@@ -1,4 +1,0 @@
-// get
-// post
-// PUT
-// DELETE

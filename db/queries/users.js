@@ -1,13 +1,5 @@
 const db = require('../connection');
 
-const getAllCustomers = () => {
-  //Used by Admin
-  const allCustomersQuery = 'SELECT * FROM customers;';
-  return db.query(allCustomersQuery).then((data) => {
-    return data.rows;
-  });
-};
-
 const getAllProducts = () => {
   const productsQuery = `SELECT * FROM products;`;
   return db.query(productsQuery).then((data) => {
@@ -35,25 +27,6 @@ const getAllInfo = () => {
 
   return db.query(cartQuery).then((data) => {
     return data.rows;
-  });
-};
-
-const getOneCartItem = (itemId) => {
-  const oneCartItemQuery = `SELECT * FROM cart_items
-  JOIN products ON products.id = cart_items.product_id
-  JOIN orders ON orders.id = cart_items.order_id
-  WHERE cart_items.product_id = $1;
-  `;
-
-  return db.query(oneCartItemQuery, [itemId]).then((data) => {
-    return data.rows[0];
-  });
-};
-
-const paymentDetails = (orderId) => {
-  const paymentQuery = 'SELECT * FROM payments WHERE order_id = $1;';
-  return db.query(paymentQuery, [orderId]).then((data) => {
-    return data.rows[0];
   });
 };
 
@@ -147,10 +120,7 @@ const getProductsByIds = function (ids) {
 };
 
 module.exports = {
-  getAllCustomers,
   getAllInfo,
-  getOneCartItem,
-  paymentDetails,
   getOrderById,
   getOrders,
   getAllProducts,

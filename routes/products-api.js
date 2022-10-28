@@ -5,12 +5,11 @@ const userQueries = require('../db/queries/users');
 router.get('/', (req, res) => {
   //gives all the info front end needs
   if (!req.cookies.user_id) {
-    res.cookie('user_id', 'customer'); // cookie set-up 
+    res.cookie('user_id', 'customer'); // cookie set-up
   }
   userQueries
     .getAllProducts()
     .then((info) => {
-      console.log('Cookie data (name) ====>', req.cookies.user_id);
       res.json({ info, type: 'product' });
     })
     .catch((err) => {
@@ -28,8 +27,5 @@ router.get('/:id', (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
-// router.post('/', (req, res) => {
-
-// })
 
 module.exports = router;

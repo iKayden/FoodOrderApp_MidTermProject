@@ -11,7 +11,5 @@ CREATE TABLE orders (
   created_at TIMESTAMP DEFAULT NOW(),
   ready_at TIMESTAMP,
   status ORDERSTATUS DEFAULT 'UNCONFIRMED'
-  -- user_id INTEGER REFERENCES customers(id)
 );
-  -- order_date DATE NOT NULL,
-  -- order_time_id INTEGER REFERENCES order_time(id)
+
