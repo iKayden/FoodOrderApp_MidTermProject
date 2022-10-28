@@ -245,11 +245,15 @@ const renderOrders = function(orders) {
 
 const renderOneOrder = function(order) {
   $products.empty();
+  if (!order.time) {
+    order.time = "TO BE CONFIRMED"
+  }
+
   const $order = $(`
   <article>
-    <div class="newOrder" key=${order.id}> Order ID: ${order.id} </div>
+    <div class="newOrder" key=${order.id}> Order ID: ${order.id}</div>
       <div class="order">
-        <div class=order-time> Your order will be ready at ${order.time}.</div>
+        <div class=order-time> Your order will be ready at: <b> ${order.time}</b>.</div>
         <div class="order-info"> Status of your order: <b>${order.status}</b></div>
         <div>Thank you for your purchase!</div>
       </div>
@@ -259,6 +263,14 @@ const renderOneOrder = function(order) {
 };
 
 const createOrderElement = function(order) {
+  console.log('order---->', order)
+
+  const drinksArray = [];
+    for (let drink of order.products) {
+      drinksArray.push(`<div class="order-name">${drink.quantity}x of ${drink.name}</div>`)
+    }
+    console.log('drinksArray', drinksArray);
+
   const $order = $(`
   <article class="new-order-article">
   <div class="newOrder">You received a new order!</div>
@@ -266,7 +278,7 @@ const createOrderElement = function(order) {
         <div class="orderInfo"></div>
         <img class="admin-order-img" src="../images/logo.png" alt="photo_url">
         <div class="orderID">Order ID: <b>${order.id}</b></div>
-        <div class="order-name">${order.products[0].quantity}x of ${order.products[0].name}</div>
+        ${drinksArray.join(" ")}
           <form action="/api/orders/${order.id}" method="POST" class="admin-order-form">
           <div><label for="order-question">How long will this take? </label><br>
           <input type="text" class="order-time-textbox" placeholder="Please enter a time">
@@ -274,6 +286,7 @@ const createOrderElement = function(order) {
           </form>
           </div>
     </article>`);
+    // console.log("ORDER--->", $order);
   return $order;
 };
 
