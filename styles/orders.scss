@@ -28,28 +28,29 @@ article .new-order-article {
 .accept-order.btn {
   background-color: #f3b4e3;
   border-radius: 8px;
-.lds-dual-ring {
-  display: none;
-  width: 80px;
-  height: 80px;
-  margin: 0 auto;
-}
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid rgb(0, 0, 0);
-  border-color: rgb(0, 0, 0) transparent rgb(10, 10, 10) transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
+  .lds-dual-ring {
+    display: none;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
   }
-  100% {
-    transform: rotate(360deg);
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0) transparent rgb(10, 10, 10) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
